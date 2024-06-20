@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b4a49879-4cf3-49ef-8c2f-97fbe8b3bf79" name="Changes" comment="Updated sql.txt" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2hsHYnz2duD9qR6pFxewORgXR9l" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/5430/PycharmProjects/Smart_Parking_System/Backend.py"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b4a49879-4cf3-49ef-8c2f-97fbe8b3bf79" name="Changes" comment="" />
+      <created>1718375916178</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1718375916178</updated>
+    </task>
+    <task id="LOCAL-00001" summary="update README">
+      <option name="closed" value="true" />
+      <created>1718605278709</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1718605278709</updated>
+    </task>
+    <task id="LOCAL-00002" summary="updated bot.py">
+      <option name="closed" value="true" />
+      <created>1718605520403</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1718605520403</updated>
+    </task>
+    <task id="LOCAL-00003" summary="updated tables.txt">
+      <option name="closed" value="true" />
+      <created>1718605649264</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1718605649264</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Updated bot.py">
+      <option name="closed" value="true" />
+      <created>1718895395827</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1718895395827</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Updated sql.txt">
+      <option name="closed" value="true" />
+      <created>1718895673846</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1718895673846</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="update README" />
+    <MESSAGE value="updated bot.py" />
+    <MESSAGE value="updated tables.txt" />
+    <MESSAGE value="Updated bot.py" />
+    <MESSAGE value="Updated sql.txt" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated sql.txt" />
+  </component>
+</project>

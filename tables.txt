@@ -1,0 +1,12 @@
+#Table creations -->
+
+create table emotion(
+emotion_name varchar(10)
+emotion_id char(3));
+
+create table songs(
+name varchar(50),
+artist varchar(100),
+emotion_id char(20),
+genre varchar(20),
+spotify_link varchar(80));
