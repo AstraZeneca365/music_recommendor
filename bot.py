@@ -2,7 +2,7 @@ import streamlit as st
 import mysql.connector
 
 
-def connect_to_database(username, password): #inputs your username and password to connect to your mysql DB
+def connect_to_database(username, password): #inputs your Username and Password to connect to your mysql DB
     db = {
         'host': 'localhost',
         'user': username,
