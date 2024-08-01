@@ -78,6 +78,12 @@ def main():
         connection.close()
     else:
         st.sidebar.warning("Please enter MySQL username and password.")
+    [theme] 
+    primaryColor = '#FF8C02' # Bright Orange
+
+    backgroundColor = '#00325B' # Dark Blue
+
+    secondaryBackgroundColor = '#55B2FF' # Lighter Blue
 
 if __name__ == "__main__":
     main()
