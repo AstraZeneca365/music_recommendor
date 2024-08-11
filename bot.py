@@ -66,34 +66,38 @@ def identify_emotion_from_sentence(sentence):
 def main():
 
     fade_style = """
-<style>
-.fade-out {
-    animation: fadeOut 1s forwards;
-}
+    <style>
+    .fade-out {
+        animation: fadeOut 1s forwards;
+    }
 
-@keyframes fadeOut {
-    0% { opacity: 1; }
-    100% { opacity: 0; }
-}
-</style>
-"""
+    @keyframes fadeOut {
+        0% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+    </style>
+    """
 
     st.markdown(fade_style, unsafe_allow_html=True)
     intro_visible = st.session_state.get('intro_visible', True)
+    song_form_visible = st.session_state.get('song_form_visible', False)
 
-    if intro_visible:
+    if intro_visible and not song_form_visible:
         st.title("Home")
-        st.write("This is Spots. I love to talk to people and recommends you some cool songs based on your mood")
+        st.write("This is Spots. I love to talk to people and recommend you some cool songs based on your mood")
         if st.button("LETS CHAT!"):
             st.session_state.intro_visible = False
             time.sleep(1)
             st.experimental_rerun()
 
         elif st.button("Recommend us some songs!"):
-            st.session_state.intro_visible = True
+            st.session_state.intro_visible = False
+            st.session_state.song_form_visible = True
             time.sleep(1)
-            form.form()
+            st.experimental_rerun()
 
+    elif song_form_visible:
+        form.form()
 
     else:
         st.markdown("""
@@ -173,10 +177,6 @@ def main():
 
         cursor.close()
         connection.close()
-
-
-
-    
 
 if __name__ == "__main__":
     main()
