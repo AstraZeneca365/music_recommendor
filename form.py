@@ -51,3 +51,5 @@ Available emotions - [Happy, Energetic, Love, Motivational, Focused, HeartBreak,
             cursor.execute(
                 f"""insert ignore into rc_songs values(\"{name}\", \"{artist}\", \"{emotion_id}\", \"{genre}\", \"{spotify_link}\") """)
             connection.commit()
+
+
