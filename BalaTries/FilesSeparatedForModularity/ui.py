@@ -27,7 +27,7 @@ def display_mood_input_form():
     return user_input, num_songs, submit_button
 
 def display_song_details(songs, display_mood):
-    # Displays details of recommended songs
+    # Displays details of recommended songs with spacing between each entry
     for song in songs:
         st.markdown(f"""
         <div class="song-details">
@@ -37,3 +37,5 @@ def display_song_details(songs, display_mood):
             <strong>Spotify Link:</strong> <a href="{song[3]}" target="_blank">{song[0]}</a>
         </div>
         """, unsafe_allow_html=True)
+        # Add a blank line between songs
+        st.markdown("<br>", unsafe_allow_html=True)
