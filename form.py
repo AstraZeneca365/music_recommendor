@@ -22,24 +22,33 @@ Available emotions - [Happy, Energetic, Love, Motivational, Focused, HeartBreak,
         submit_button = st.form_submit_button(label='Submit')
 
     if submit_button:
-        db = {
-            'host': 'localhost',
-            'user': 'root',
-            'password': '1234',
-            'database': 'comp_project'
-        }
-        connection = mc.connect(**db)
-        cursor = connection.cursor()
+        # Validation: Check if all fields are filled
+        if not (name and artist and emotion_id and genre and spotify_link):
+            st.error("Please fill all the fields.")
 
-        query = f"""
-                    create table if not exists rc_songs(
-                    name varchar(50),
-                    artist varchar(100),
-                    emotion_id char(20),
-                    genre varchar(20),
-                    spotify_link varchar(80));
-                """
-        cursor.execute(query)
 
-        cursor.execute(f"""insert into rc_songs values(\"{name}\", \"{artist}\", \"{emotion_id}\", \"{genre}\", \"{spotify_link}\") """)
-        connection.commit()
+
+        else:
+            db = {
+                'host': 'localhost',
+                'user': 'root',
+                'password': '1234',
+                'database': 'comp_project'
+            }
+            connection = mc.connect(**db)
+            cursor = connection.cursor()
+
+            query = f"""
+                            create table if not exists rc_songs(
+                            name varchar(50),
+                            artist varchar(100),
+                            emotion_id char(20),
+                            genre varchar(20),
+                            spotify_link varchar(80));
+                        """
+            cursor.execute(query)
+
+            cursor.execute(
+                f"""insert ignore into rc_songs values(\"{name}\", \"{artist}\", \"{emotion_id}\", \"{genre}\", \"{spotify_link}\") """)
+            connection.commit()
+
