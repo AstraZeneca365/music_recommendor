@@ -1,12 +1,13 @@
 import streamlit as st
 import mysql.connector
 import time
+import form
 
 def connect_to_database():
     db = {
         'host': 'localhost',
         'user': 'root',
-        'password': 'root',
+        'password': '1234',
         'database': 'comp_project'
     }
     try:
@@ -88,11 +89,12 @@ def main():
             time.sleep(1)
             st.experimental_rerun()
 
-       
-        st.markdown("[Click here to send us some of your recommendations!](https://www.google.com)")
+        elif st.button("Recommend us some songs!"):
+            st.session_state.intro_visible = True
+            time.sleep(1)
+            form.form()
 
 
-    
     else:
         st.markdown("""
         <style>
