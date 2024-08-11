@@ -55,4 +55,3 @@ Available emotions - [Happy, Energetic, Love, Motivational, Focused, HeartBreak,
             connection.commit()
 
 
-form()
