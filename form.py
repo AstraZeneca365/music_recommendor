@@ -48,8 +48,11 @@ Available emotions - [Happy, Energetic, Love, Motivational, Focused, HeartBreak,
                         """
             cursor.execute(query)
 
-            cursor.execute(
-                f"""insert ignore into rc_songs values(\"{name}\", \"{artist}\", \"{emotion_id}\", \"{genre}\", \"{spotify_link}\") """)
+            cursor.execute("select *  from rc_songs")
+            l = cursor.fetchall()
+            if (eval(f"(\"{name}\", \"{artist}\", \"{emotion_id}\", \"{genre}\", \"{spotify_link}\")")) not in l:
+                    cursor.execute(f"insert into rc_songs values(\"{name}\", \"{artist}\", \"{emotion_id}\", \"{genre}\", \"{spotify_link}\")")
             connection.commit()
 
 
+form()
