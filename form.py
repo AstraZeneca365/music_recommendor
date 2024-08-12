@@ -53,6 +53,3 @@ Available emotions - [Happy, Energetic, Love, Motivational, Focused, HeartBreak,
             if (eval(f"(\"{name}\", \"{artist}\", \"{emotion_id}\", \"{genre}\", \"{spotify_link}\")")) not in l:
                     cursor.execute(f"insert into rc_songs values(\"{name}\", \"{artist}\", \"{emotion_id}\", \"{genre}\", \"{spotify_link}\")")
             connection.commit()
-
-
-form()
