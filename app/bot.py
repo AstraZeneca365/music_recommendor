@@ -4,6 +4,7 @@ import time
 import form
 
 def connect_to_database():
+    # Database connection configuration
     db = {
         'host': 'localhost',
         'user': 'root',
@@ -19,10 +20,9 @@ def connect_to_database():
 
 # Emotion ID mapping
 emotion_ids = ["CLM", "ENR", "SAD", "FCS", "MTV", "LOV", "HBR", "CHL", "PRT", "ANG", "HPY"]
-emotions = ["Calm", "Energetic", "Sad", "Focused", "Motivational", "Love", "Heartbreak", "Chill", "Party",
-            "Angry", "Happy"]
+emotions = ["Calm", "Energetic", "Sad", "Focused", "Motivational", "Love", "Heartbreak", "Chill", "Party", "Angry", "Happy"]
 
-# Synonym mapping
+# Synonym mapping for identifying emotions
 emotion_synonyms = {
     "Happy": ["happy", "good", "joyful", "cheerful", "content", "elated", "delighted", "glad", "pleased", "ecstatic", "jubilant", "upbeat"],
     "Sad": ["sad", "unhappy", "down", "gloomy", "depressed", "melancholy", "sorrowful", "heartbroken", "miserable", "dejected", "mournful"],
@@ -65,6 +65,7 @@ def identify_emotion_from_sentence(sentence):
 
 def main():
 
+    # CSS for fade-out animation
     fade_style = """
     <style>
     .fade-out {
@@ -83,9 +84,10 @@ def main():
     song_form_visible = st.session_state.get('song_form_visible', False)
 
     if intro_visible and not song_form_visible:
+        # Display the home page
         st.title("Home")
-        st.write("This is Spots. I love to talk to people and recommend you some cool songs based on your mood")
-        if st.button("LETS CHAT!"):
+        st.write("This is Spots. I love to talk to people and recommend you some cool songs based on your mood.")
+        if st.button("LET'S CHAT!"):
             st.session_state.intro_visible = False
             time.sleep(1)
             st.experimental_rerun()
@@ -97,9 +99,17 @@ def main():
             st.experimental_rerun()
 
     elif song_form_visible:
+        # Display the song recommendation form
         form.form()
 
+        # Add a Go To Home Page button
+        if st.button("Go To Home Page"):
+            st.session_state.song_form_visible = False
+            st.session_state.intro_visible = True
+            st.experimental_rerun()
+
     else:
+        # Display the mood input and song recommendation section
         st.markdown("""
         <style>
             .title {
@@ -149,12 +159,15 @@ def main():
                 if not user_input.strip():
                     st.warning("Please enter something to get recommendations.")
                 else:
+                    # Identify the mood and corresponding synonym
                     mood, synonym = identify_emotion_from_sentence(user_input) or (
                         user_input.capitalize() if user_input.capitalize() in emotions else (None, None))
 
                     if mood:
+                        # Get the corresponding emotion ID
                         emotion_id = emotion_ids[emotions.index(mood)]
 
+                        # Fetch songs based on the identified emotion
                         songs = fetch_songs_by_emotion(cursor, emotion_id, limit=num_songs)
 
                         if songs:
@@ -177,6 +190,12 @@ def main():
 
         cursor.close()
         connection.close()
+
+        # Add a Go To Home Page button
+        if st.button("Go To Home Page"):
+            st.session_state.song_form_visible = False
+            st.session_state.intro_visible = True
+            st.experimental_rerun()
 
 if __name__ == "__main__":
     main()

@@ -22,7 +22,6 @@ Available emotions - [Happy, Energetic, Love, Motivational, Focused, HeartBreak,
         submit_button = st.form_submit_button(label='Submit')
 
     if submit_button:
-        # Validation: Check if all fields are filled
         if not (name and artist and emotion_id and genre and spotify_link):
             st.error("Please fill all the fields.")
 
