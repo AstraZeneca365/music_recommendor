@@ -26,12 +26,12 @@ def connect_to_database():
         st.error(f"Error: {err}")
         return None
 
-def search_song_by_title(cursor, title):
+def search_song_by_title_or_artist(cursor, tora):
     try:
         query = f"""
             SELECT *
             FROM songs
-            WHERE name LIKE '%{title}%'
+            WHERE name LIKE '%{tora}%' or artist like '%{tora}%' 
             ORDER BY name;
         """
         cursor.execute(query)
@@ -40,6 +40,7 @@ def search_song_by_title(cursor, title):
     except mysql.connector.Error as err:
         st.error(f"MySQL Error: {err}")
         return None
+
 
 
 # Emotion ID mapping
@@ -163,12 +164,12 @@ def main():
         cursor = connection.cursor()
 
         with st.form(key='search_form'):
-            search_input = st.text_input("Search for a specific song:", placeholder="Enter song title")
+            search_input = st.text_input("Search for a specific song:", placeholder="Enter song title/artist")
             search_button = st.form_submit_button("Search")
             
             if search_button:
                 if not search_input.strip():
-                    st.warning("Please enter a song title to search.")
+                    st.warning("Please enter something to search for.")
                 else:
                     # Fetch songs by title
                     songs = search_song_by_title(cursor, search_input)
