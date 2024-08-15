@@ -342,7 +342,6 @@ def main():
             cursor.close()
             connection.close()
 
-        # Add a Go To Home Page button
         if st.button("Go To Home Page"):
             st.session_state.song_form_visible = False
             st.session_state.search_form_visible = False
@@ -351,3 +350,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
