@@ -25,7 +25,7 @@ def main():
             st.session_state['logged_in'] = True
             st.session_state['username'] = username
             st.session_state.page = "bot"  # Navigate to bot page
-            st.experimental_rerun()  # Refresh to show bot page
+            st.rerun()  # Refresh to show bot page
         else:
             st.error("Invalid username or password. Please try again.")
 

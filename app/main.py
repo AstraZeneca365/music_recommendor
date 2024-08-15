@@ -13,7 +13,7 @@ def main():
         st.write("Already have an account?")
         if st.button("Login"):
             st.session_state.page = "login"
-            st.experimental_rerun()
+            st.rerun()
 
     elif st.session_state.page == "login":
         st.title("Login to Your Account")
@@ -25,7 +25,7 @@ def main():
             st.session_state.page = "login"
             st.session_state.logged_in = False
             st.session_state.username = None
-            st.experimental_rerun()
+            st.rerun()
 
 
 if __name__ == "__main__":
