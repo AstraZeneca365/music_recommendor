@@ -169,7 +169,7 @@ def main():
             
             if search_button:
                 if not search_input.strip():
-                    st.warning("Please enter something to search.")
+                    st.warning("Please enter something to search for.")
                 else:
                     # Fetch songs by title
                     songs = search_song_by_title(cursor, search_input)
