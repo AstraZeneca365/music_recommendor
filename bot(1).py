@@ -1,5 +1,6 @@
 import streamlit as st
-import mysql.connector, time, form
+import mysql.connector, time
+from app import form
 
 
 def decoder(s):
@@ -15,7 +16,7 @@ def connect_to_database():
     db = {
         'host': 'localhost',
         'user': 'root',
-        'password': 'root',
+        'password': '1234',
         'database': 'comp_project'
     }
     try:
@@ -24,6 +25,22 @@ def connect_to_database():
     except mysql.connector.Error as err:
         st.error(f"Error: {err}")
         return None
+
+def search_song_by_title(cursor, title):
+    try:
+        query = f"""
+            SELECT *
+            FROM songs
+            WHERE name LIKE '%{title}%'
+            ORDER BY name;
+        """
+        cursor.execute(query)
+        songs = cursor.fetchall()
+        return songs
+    except mysql.connector.Error as err:
+        st.error(f"MySQL Error: {err}")
+        return None
+
 
 # Emotion ID mapping
 emotion_ids = ["CLM", "ENR", "SAD", "FCS", "MTV", "LOV", "HBR", "CHL", "PRT", "ANG", "HPY"]
@@ -103,21 +120,28 @@ def main():
     st.markdown(fade_style, unsafe_allow_html=True)
     intro_visible = st.session_state.get('intro_visible', True)
     song_form_visible = st.session_state.get('song_form_visible', False)
+    search_form_visible = st.session_state.get('search_form_visible', False)
 
-    if intro_visible and not song_form_visible:
+    if intro_visible and not song_form_visible and not search_form_visible:
         # Display the home page
         st.title("Home")
         st.write("This is Spots. I love to talk to people and recommend you some cool songs based on your mood.")
         if st.button("LET'S CHAT!"):
             st.session_state.intro_visible = False
             time.sleep(1)
-            st.experimental_rerun()
+            st.rerun()
 
         elif st.button("Recommend us some songs!"):
             st.session_state.intro_visible = False
             st.session_state.song_form_visible = True
             time.sleep(1)
-            st.experimental_rerun()
+            st.rerun()
+
+        elif st.button("Search for a Song"):
+            st.session_state.intro_visible = False
+            st.session_state.search_form_visible = True
+            time.sleep(1)
+            st.rerun()
 
     elif song_form_visible:
         # Display the song recommendation form
@@ -127,7 +151,52 @@ def main():
         if st.button("Go To Home Page"):
             st.session_state.song_form_visible = False
             st.session_state.intro_visible = True
-            st.experimental_rerun()
+            st.rerun()
+
+    elif search_form_visible:
+        # Display the search form for searching a specific song
+        connection = connect_to_database()
+        if not connection:
+            st.error("Failed to connect to database.")
+            return
+
+        cursor = connection.cursor()
+
+        with st.form(key='search_form'):
+            search_input = st.text_input("Search for a specific song:", placeholder="Enter song title")
+            search_button = st.form_submit_button("Search")
+            
+            if search_button:
+                if not search_input.strip():
+                    st.warning("Please enter a song title to search.")
+                else:
+                    # Fetch songs by title
+                    songs = search_song_by_title(cursor, search_input)
+                    
+                    if songs:
+                        st.markdown(f'<p class="header">Search results for "{search_input}":</p>', unsafe_allow_html=True)
+                        for song in songs:
+                            ei = decoder(song[2])
+                            st.markdown(f"""
+                            <div class="song-details">
+                                <strong>Name:</strong> {song[0]}<br>
+                                <strong>Artist:</strong> {song[1]}<br>
+                                <strong>Emotion:</strong> {ei}<br>
+                                <strong>Genre:</strong> {song[3]}<br>
+                                <strong>Spotify Link:</strong> <a href="{song[4]}">{song[0]}</a>
+                            </div>
+                            """, unsafe_allow_html=True)
+                    else:
+                        st.warning(f"No songs found for '{search_input}'.")
+
+        cursor.close()
+        connection.close()
+
+        # Add a Go To Home Page button
+        if st.button("Go To Home Page"):
+            st.session_state.search_form_visible = False
+            st.session_state.intro_visible = True
+            st.rerun()
 
     else:
         # Display the mood input and song recommendation section
@@ -185,12 +254,10 @@ def main():
             col1, col2 = st.columns([2, 1])
             with col1:
                 submit_button = st.form_submit_button("Get Recommendations")
-            with col2:
-                random_fun_button = st.form_submit_button("Random Fun!")
-
+            with col1:
+                random_fun_button = st.form_submit_button("Random Song Generator!")
 
             button_pressed = False
-            
             
             if submit_button:
                 button_pressed =  True
@@ -213,7 +280,6 @@ def main():
                             st.markdown(f'<p class="header">Here are some amazing songs for "{display_mood}":</p>',
                                         unsafe_allow_html=True)
                             
-                            
                             for song in songs:
                                 ei = song[2]
                                 ei = ei.replace(emotion_id,"")
@@ -230,7 +296,6 @@ def main():
                                     <strong>Spotify Link:</strong> <a href="{song[4]}">{song[0]}</a>
                                 </div>
                                 """, unsafe_allow_html=True)
-                                st.write()
                         else:
                             st.warning(f"No songs found for '{mood}'.")
                     else:
@@ -264,20 +329,16 @@ def main():
                     """, unsafe_allow_html=True)
                 else:
                     st.warning("No songs found.")
-            elif not button_pressed:
-                st.write()
-            else:
-                st.error("Sorry, I don't understand that moooooooooooooooooood. Please try again.")
 
-
-        cursor.close()
-        connection.close()
+            cursor.close()
+            connection.close()
 
         # Add a Go To Home Page button
         if st.button("Go To Home Page"):
             st.session_state.song_form_visible = False
             st.session_state.intro_visible = True
-            st.experimental_rerun()
+            st.rerun()
+
 
 if __name__ == "__main__":
     main()
