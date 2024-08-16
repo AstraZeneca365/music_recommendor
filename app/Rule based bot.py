@@ -68,17 +68,18 @@ for intent, keys in keywords.items():
 responses={
     'Calm':'One of the best moods for music',
     'Energetic':'Ready for some action',
-    'Sad':'One of the best moods for music',
-    'Focused':'One of the best moods for music',
-    'Motivational':'One of the best moods for music',
-    'Love':'One of the best moods for music',
-    'Heartbreak':'One of the best moods for music',
-    'Chill':'One of the best moods for music',
-    'Party':'One of the best moods for music',
-    'Angry':'One of the best moods for music',
-    'Happy':'One of the best moods for music',
-    'fallback':'I dont quite understand. Could you repeat that?',
+    'Sad':'Lets cheer you up!',
+    'Focused':'No disturbance from our side',
+    'Motivational':'Time to get inspired!',
+    'Love':'My chest hurts!! but I am happy ?',
+    'Heartbreak':'My ',
+    'Chill':'Open minded, I love it!',
+    'Party':'Music was made for this!',
+    'Angry':'The oddball but still very much possible!',
+    'Happy':'The best kind of music',
+    'fallback':'Wanna try again?',
 }
+print ("Welcome!. How are you feeling?")
 # While loop to run the chatbot indefinetely
 while (True):  
     # Takes the user input and converts all characters to lowercase
