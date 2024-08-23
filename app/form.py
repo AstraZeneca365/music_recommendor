@@ -31,7 +31,7 @@ Available emotions - [Happy, Energetic, Love, Motivational, Focused, HeartBreak,
             db = {
                 'host': 'localhost',
                 'user': 'root',
-                'password': '1234',
+                'password': 'root',
                 'database': 'comp_project'
             }
             connection = mc.connect(**db)
@@ -52,4 +52,5 @@ Available emotions - [Happy, Energetic, Love, Motivational, Focused, HeartBreak,
             if (eval(f"(\"{name}\", \"{artist}\", \"{emotion_id}\", \"{genre}\", \"{spotify_link}\")")) not in l:
                     cursor.execute(f"insert into rc_songs values(\"{name}\", \"{artist}\", \"{emotion_id}\", \"{genre}\", \"{spotify_link}\")")
             connection.commit()
+            st.success("Thanks for your Recommendation!")
 

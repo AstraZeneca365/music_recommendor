@@ -1,6 +1,6 @@
 import streamlit as st
 import mysql.connector, time
-from app import form
+import form
 
 
 def decoder(s):
@@ -16,7 +16,7 @@ def connect_to_database():
     db = {
         'host': 'localhost',
         'user': 'root',
-        'password': '1234',
+        'password': 'root',
         'database': 'comp_project'
     }
     try:
@@ -61,7 +61,7 @@ emotion_map = {
 
 # Synonym mapping for identifying emotions
 emotion_synonyms = {
-    "Happy": ["happy", "good", "joyful", "cheerful", "content", "elated", "delighted", "glad", "pleased", "ecstatic", "jubilant", "upbeat"],
+    "Happy": ["happy","lovely", "good", "joyful", "cheerful","amazing", "content", "elated", "delighted", "glad", "pleased", "ecstatic", "jubilant", "upbeat"],
     "Sad": ["sad", "unhappy", "down", "gloomy", "depressed", "melancholy", "sorrowful", "heartbroken", "miserable", "dejected", "mournful"],
     "Love": ["love", "affection", "romance", "adore", "passion", "infatuation", "fondness", "devotion", "caring", "enamored", "tenderness"],
     "Energetic": ["energetic", "lively", "vibrant", "active", "dynamic", "enthusiastic", "spirited", "vigorous", "peppy", "bouncy", "animated"],
@@ -134,7 +134,8 @@ def main():
     if intro_visible and not song_form_visible and not search_form_visible:
         # Display the home page
         st.title("Home")
-        st.write("This is Spots. I love to talk to people and recommend you some cool songs based on your mood.")
+        st.write("This is Spots. I love to talk to people and recommend you some cool songs based on your mood!")
+        st.write("....Still in development :D")
         if st.button("LET'S CHAT!"):
             st.session_state.intro_visible = False
             time.sleep(1)
