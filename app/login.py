@@ -2,9 +2,9 @@ import streamlit as st
 import os
 
 def validate_user(username, password):
-    if not os.path.exists("../users.txt"):
+    if not os.path.exists("users.txt"):
         return False
-    with open("../users.txt", "r") as file:
+    with open("users.txt", "r") as file:
         for line in file:
             stored_username, stored_password = line.strip().split(",")
             if stored_username == username and stored_password == password:
