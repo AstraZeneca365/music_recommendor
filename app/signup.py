@@ -4,7 +4,7 @@ import re
 
 def save_user_info(username, password):
     with open("users.txt", "a") as file:
-        file.write(f"{username},{password}\n")
+        file.write(f"{username} {password}\n")
 
 
 def username_exists(username):
@@ -12,7 +12,7 @@ def username_exists(username):
         return False
     with open("users.txt", "r") as file:
         for line in file:
-            stored_username, _ = line.strip().split(",")
+            stored_username, _ = line.strip().split(" ")
             if stored_username == username:
                 return True
     return False
