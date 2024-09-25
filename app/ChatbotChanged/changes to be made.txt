@@ -1,0 +1,37 @@
+For some reason the chat is recurring. Like for example:
+Bot - <bot-msg1>
+User - <user-msg1>
+
+and then :
+
+Bot - <bot-msg1>
+User - <user-msg1>
+Bot - <bot-msg2>
+User - <user-msg2>
+
+and then : 
+
+Bot - <bot-msg1>
+User - <user-msg1>
+Bot - <bot-msg2>
+User - <user-msg2>
+Bot - <bot-msg3>
+User - <user-msg3>
+
+
+It's printing all of these together like
+b1
+u1
+b1
+u1
+b2
+u2
+b1
+u1
+b2
+u2
+b3
+u3
+
+
+And we also need to work on the responses
