@@ -9,14 +9,14 @@ nltk.download('punkt', quiet=True)
 
 # set streamlit page configuration
 st.set_page_config(
-    page_title="😊 emotion-recognizing chatbot",
+    page_title="Emotion-recognizing chatbot",
     page_icon="🤖",
     layout="centered",
     initial_sidebar_state="auto",
 )
 
 # title of the app
-st.title("😊 emotion-recognizing chatbot 🤖")
+st.title("🤖 Emotion-recognizing chatbot 🤖")
 
 # initialize session state for conversation history and user name
 if 'conversation' not in st.session_state:
@@ -27,72 +27,72 @@ if 'user_name' not in st.session_state:
 # emotion to response mapping with multiple responses for variety
 emotion_responses = {
     "joy": [
-        "that's fantastic! what made you feel so happy?",
-        "wow, it sounds like you’re on cloud nine! care to share more?",
-        "happiness looks good on you! what made you feel this way?",
-        "you seem to be having a great time! is there something special happening?",
-        "your happiness is contagious! tell me more!"
+        "That's fantastic! What made you feel so happy?",
+        "Wow, it sounds like you’re on cloud nine! Care to share more?",
+        "Happiness looks good on you! What made you feel this way?",
+        "You seem to be having a great time! Is something special happening?",
+        "Your happiness is contagious! Tell me more!"
     ],
     "sadness": [
-        "i'm here for you. do you want to talk about what's on your mind?",
-        "it’s okay to feel sad sometimes. what's been bothering you lately?",
-        "i'm really sorry to hear that you're feeling this way. is there anything i can do?",
-        "life has its ups and downs. do you want to share what's bringing you down?",
-        "i understand how tough it can be. let's talk about it together."
+        "I'm here for you. Do you want to talk about what's on your mind?",
+        "It’s okay to feel sad sometimes. What's been bothering you lately?",
+        "I'm really sorry to hear that you're feeling this way. Is there anything I can do?",
+        "Life has its ups and downs. Do you want to share what's bringing you down?",
+        "I understand how tough it can be. Let's talk about it together."
     ],
     "anger": [
-        "it's natural to feel angry. want to vent a bit?",
-        "i hear you, and your feelings are valid. what’s causing this frustration?",
-        "it sounds like something really upset you. i'm here to listen if you want to share.",
-        "let it all out. sometimes expressing it can be quite a relief.",
-        "your feelings matter, and i'm here to support you. what's been bothering you?"
+        "It's natural to feel angry. Want to vent a bit?",
+        "I hear you, and your feelings are valid. What’s causing this frustration?",
+        "It sounds like something really upset you. I'm here to listen if you want to share.",
+        "Let it all out. Sometimes expressing it can be quite a relief.",
+        "Your feelings matter, and I'm here to support you. What's been bothering you?"
     ],
     "fear": [
-        "it’s okay to be afraid sometimes. do you want to talk about it?",
-        "we all have fears. is there anything i can do to help you feel safer?",
-        "facing fear is never easy. i’m here if you need to share.",
-        "i'm here for you. what's been making you feel this way?",
-        "you’re not alone in this. let's get through it together."
+        "It’s okay to be afraid sometimes. Do you want to talk about it?",
+        "We all have fears. Is there anything I can do to help you feel safer?",
+        "Facing fear is never easy. I’m here if you need to share.",
+        "I'm here for you. What's been making you feel this way?",
+        "You’re not alone in this. Let's get through it together."
     ],
     "surprise": [
-        "that’s unexpected! how did it make you feel?",
-        "wow! i didn’t see that coming either. what happened next?",
-        "surprises can be both good and bad. how do you feel about this one?",
-        "that sounds interesting! care to elaborate?",
-        "unexpected moments can be the best stories. tell me more!"
+        "That’s unexpected! How did it make you feel?",
+        "Wow! I didn’t see that coming either. What happened next?",
+        "Surprises can be both good and bad. How do you feel about this one?",
+        "That sounds interesting! Care to elaborate?",
+        "Unexpected moments can be the best stories. Tell me more!"
     ],
     "disgust": [
-        "i can understand why you'd feel that way. want to share more?",
-        "it must have been unpleasant. what happened?",
-        "that sounds really tough. how did you handle it?",
-        "sometimes, things just leave a bad taste, don’t they?",
-        "i'm here to listen if you need to get it off your chest."
+        "I can understand why you'd feel that way. Want to share more?",
+        "It must have been unpleasant. What happened?",
+        "That sounds really tough. How did you handle it?",
+        "Sometimes, things just leave a bad taste, don’t they?",
+        "I'm here to listen if you need to get it off your chest."
     ],
     "trust": [
-        "it's great to hear that you feel confident and trusting. how can I assist you today?",
-        "i appreciate your trust! how can I assist you today?",
-        "you can always count on me. is there anything you want to share?",
-        "i’m glad you feel confident. what would you like to talk about?",
-        "your trust means a lot. how can I be of help?"
+        "It's great to hear that you feel confident and trusting. How can I assist you today?",
+        "I appreciate your trust! How can I assist you today?",
+        "You can always count on me. Is there anything you want to share?",
+        "I’m glad you feel confident. What would you like to talk about?",
+        "Your trust means a lot. How can I be of help?"
     ],
     "anticipation": [
-        "it sounds like you have something exciting coming up! want to share?",
-        "i can sense your excitement! what are you looking forward to?",
-        "anticipation is such a powerful feeling. tell me more about it!",
-        "it's always great to have something to look forward to. what’s the story?",
-        "i love your enthusiasm! what’s got you so eager?"
+        "It sounds like you have something exciting coming up! Want to share?",
+        "I can sense your excitement! What are you looking forward to?",
+        "Anticipation is such a powerful feeling. Tell me more about it!",
+        "It's always great to have something to look forward to. What’s the story?",
+        "I love your enthusiasm! What’s got you so eager?"
     ],
     "neutral": [
-        "i'm here to listen. feel free to share whatever’s on your mind.",
-        "what else is going on in your life?",
-        "anything interesting you'd like to talk about?",
-        "i’m all ears! tell me what’s up.",
-        "you have my full attention. what would you like to discuss?",
-        "that's a good question! what else would you like to know?",
-        "ask me anything! i'm here to chat with you.",
-        "let's keep the conversation going. what’s on your mind?",
-        "feel free to steer this chat in any direction you like!",
-        "if you're unsure, i can suggest some topics too!"
+        "I'm here to listen. Feel free to share whatever’s on your mind.",
+        "What else is going on in your life?",
+        "Anything interesting you'd like to talk about?",
+        "I’m all ears! Tell me what’s up.",
+        "You have my full attention. What would you like to discuss?",
+        "That's a good question! What else would you like to know?",
+        "Ask me anything! I'm here to chat with you.",
+        "Let's keep the conversation going. What’s on your mind?",
+        "Feel free to steer this chat in any direction you like!",
+        "If you're unsure, I can suggest some topics too!"
     ]
 }
 
