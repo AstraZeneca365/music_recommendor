@@ -183,11 +183,11 @@ def display_conversation():
     """
     Display the conversation history.
     """
-    for msg in st.session_state.conversation:
-        if msg['role'] == 'user':
-            st.chat_message("user").write(msg['content'])
-        else:
-            st.chat_message("assistant").write(msg['content'])
+    msg = st.session_state.conversation[-1]
+    if msg['role'] == 'user':
+        st.chat_message("user").write(msg['content'])
+    else:
+        st.chat_message("assistant").write(msg['content'])
 
 def main():
     """
