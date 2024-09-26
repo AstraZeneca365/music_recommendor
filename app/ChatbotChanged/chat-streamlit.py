@@ -181,13 +181,23 @@ def get_response(emotion):
 
 def display_conversation():
     """
-    Display the conversation history.
+    Display the entire conversation history in a scrollable container.
     """
-    msg = st.session_state.conversation[-1]
-    if msg['role'] == 'user':
-        st.chat_message("user").write(msg['content'])
-    else:
-        st.chat_message("assistant").write(msg['content'])
+    chat_container = st.container()
+    with chat_container:
+        chat_history = st.empty()
+        
+        chat_history.markdown(
+            f"""
+            <div style="height: 400px; overflow-y: scroll; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                {"".join(
+                    [f"<div style='padding: 5px;'><b>{'User:' if msg['role'] == 'user' else 'Bot:'}</b> {msg['content']}</div>"
+                     for msg in st.session_state.conversation]
+                )}
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
 def main():
     """
@@ -198,9 +208,9 @@ def main():
         user_name = st.text_input("Please enter your name to start the conversation:", key="name_input")
         if user_name:
             st.session_state.user_name = user_name.strip().title()
-            # Greet the user
             st.session_state.conversation.append({"role": "assistant", "content": f"Hello, {st.session_state.user_name}! How are you feeling today?"})
             display_conversation()
+            st.rerun()  # Rerun to display the conversation immediately
     else:
         # Display conversation history
         display_conversation()
@@ -209,7 +219,6 @@ def main():
         user_input = st.chat_input("Type your message here...")
         
         if user_input:
-            # Append user message to conversation
             st.session_state.conversation.append({"role": "user", "content": user_input})
             display_conversation()
             
@@ -217,13 +226,13 @@ def main():
             with st.spinner('Analyzing your message...'):
                 emotion, score = detect_emotion(user_input)
                 response = get_response(emotion)
-                # Optionally, include the detected emotion and confidence
-                response_with_emotion = f"{response} *[Emotion Detected: {emotion.title()}, Confidence: {score:.2f}]*"
+                response_with_emotion = f"{response}"
                 time.sleep(1)  # Simulate processing time
             
             # Append assistant response to conversation
             st.session_state.conversation.append({"role": "assistant", "content": response_with_emotion})
             display_conversation()
+            st.rerun()  # Rerun to display the updated conversation immediately
 
 if __name__ == "__main__":
     main()
