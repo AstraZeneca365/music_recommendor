@@ -16,7 +16,7 @@ st.set_page_config(
 )
 
 # title of the app
-st.title("🤖 Emotion-recognizing chatbot 🤖")
+st.title("🤖 Emotion-recognizing chatbot")
 
 # initialize session state for conversation history and user name
 if 'conversation' not in st.session_state:
