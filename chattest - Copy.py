@@ -27,61 +27,137 @@ if 'user_name' not in st.session_state:
 
 # emotion to response mapping with multiple responses for variety
 emotion_responses = {
-    "joy": [
-        "That's fantastic! What made you feel so happy?",
-        "Wow, it sounds like you’re on cloud nine! Care to share more?",
-        "Happiness looks good on you! What made you feel this way?",
-        "You seem to be having a great time! Is something special happening?",
-        "Your happiness is contagious! Tell me more!"
+    "HPY": [
+        "That's wonderful! What brought you so much joy?",
+        "Your happiness is infectious! Tell me more about it.",
+        "I'm so glad to hear that! What made your day?",
+        "Happiness looks good on you! Care to share what happened?",
+        "You seem really cheerful! Is something special going on?",
+        "What’s the secret behind your smile today?",
+        "Your positivity is uplifting! What’s making you feel this way?",
+        "I love your energy! What’s bringing you joy?",
+        "Sounds like a great day! What’s been the highlight?",
+        "Your happiness is a ray of sunshine! What’s the story?"
     ],
-    "sadness": [
-        "I'm here for you. Do you want to talk about what's on your mind?",
-        "It’s okay to feel sad sometimes. What's been bothering you lately?",
-        "I'm really sorry to hear that you're feeling this way. Is there anything I can do?",
-        "Life has its ups and downs. Do you want to share what's bringing you down?",
-        "I understand how tough it can be. Let's talk about it together."
+    "SAD": [
+        "I'm here for you. Do you want to talk about what's bothering you?",
+        "It’s okay to feel sad sometimes. What’s on your mind?",
+        "I’m really sorry to hear that you're feeling down. How can I help?",
+        "It's normal to have tough days. Want to share what's making you feel this way?",
+        "Sadness is part of being human. I'm here to listen if you need.",
+        "I'm really sorry you're feeling this way. Is there anything specific troubling you?",
+        "Sometimes it helps to talk about it. What’s been weighing on your heart?",
+        "It's okay to feel this way. How can I support you through this?",
+        "You’re not alone in this. Want to share your thoughts?",
+        "Let’s talk about what’s bringing you down, if you’re comfortable."
     ],
-    "anger": [
-        "It's natural to feel angry. Want to vent a bit?",
-        "I hear you, and your feelings are valid. What’s causing this frustration?",
-        "It sounds like something really upset you. I'm here to listen if you want to share.",
-        "Let it all out. Sometimes expressing it can be quite a relief.",
-        "Your feelings matter, and I'm here to support you. What's been bothering you?"
+    "MTV": [
+        "What’s inspiring you to push forward today?",
+        "Motivation can be so powerful! What drives you?",
+        "I can sense your determination! What are you working towards?",
+        "What’s fueling your ambition right now?",
+        "I love your enthusiasm! What are you excited to accomplish?",
+        "What keeps you motivated on tough days?",
+        "Your drive is inspiring! What’s your current goal?",
+        "What motivates you to keep moving forward?",
+        "How do you stay focused on your goals?",
+        "I admire your motivation! What’s the next step for you?"
     ],
-    "fear": [
-        "It’s okay to be afraid sometimes. Do you want to talk about it?",
-        "We all have fears. Is there anything I can do to help you feel safer?",
-        "Facing fear is never easy. I’m here if you need to share.",
-        "I'm here for you. What's been making you feel this way?",
-        "You’re not alone in this. Let's get through it together."
+    "CLM": [
+        "It’s great to hear you’re feeling calm. What’s bringing you peace?",
+        "Calmness is such a beautiful state. How did you achieve it?",
+        "What do you do to maintain this sense of calm?",
+        "Calmness can be hard to find sometimes. What helps you relax?",
+        "Your tranquility is inspiring! What’s your secret?",
+        "What’s been contributing to your sense of calm lately?",
+        "Finding calm is essential. What practices help you?",
+        "How do you maintain your peace of mind?",
+        "What does a perfect calm day look like for you?",
+        "I appreciate your calm demeanor! What keeps you grounded?"
     ],
-    "surprise": [
-        "That’s unexpected! How did it make you feel?",
-        "Wow! I didn’t see that coming either. What happened next?",
-        "Surprises can be both good and bad. How do you feel about this one?",
-        "That sounds interesting! Care to elaborate?",
-        "Unexpected moments can be the best stories. Tell me more!"
+    "ENR": [
+        "Your energy is contagious! What’s fueling your enthusiasm?",
+        "I can feel your vibrancy! What’s exciting you today?",
+        "What’s making you feel so alive and energized?",
+        "Your passion is inspiring! What’s the source of your energy?",
+        "How do you keep your energy levels high?",
+        "What activities bring out your energetic side?",
+        "Your excitement is uplifting! What’s got you buzzing?",
+        "What are you celebrating that’s giving you so much energy?",
+        "What keeps you motivated and energized throughout the day?",
+        "Your lively spirit is refreshing! What are you up to?"
     ],
-    "disgust": [
-        "I can understand why you'd feel that way. Want to share more?",
-        "It must have been unpleasant. What happened?",
-        "That sounds really tough. How did you handle it?",
-        "Sometimes, things just leave a bad taste, don’t they?",
-        "I'm here to listen if you need to get it off your chest."
+    "FCS": [
+        "You seem really focused! What’s capturing your attention?",
+        "How do you maintain your concentration?",
+        "What are you currently focused on that excites you?",
+        "I admire your dedication! What’s your goal?",
+        "How do you tune out distractions?",
+        "What helps you stay on track?",
+        "You seem really committed! What’s driving your focus?",
+        "What’s the key to your concentration right now?",
+        "How do you keep your mind sharp and focused?",
+        "What’s your strategy for staying productive?"
     ],
-    "trust": [
-        "It's great to hear that you feel confident and trusting. How can I assist you today?",
-        "I appreciate your trust! How can I assist you today?",
-        "You can always count on me. Is there anything you want to share?",
-        "I’m glad you feel confident. What would you like to talk about?",
-        "Your trust means a lot. How can I be of help?"
+    "LOV": [
+        "Love is such a beautiful emotion! What’s inspiring it?",
+        "What brings you joy and love in your life?",
+        "Your love for life is refreshing! What fuels it?",
+        "How do you express love in your daily life?",
+        "What moments make you feel loved and cherished?",
+        "How do you cultivate love in your relationships?",
+        "What’s your favorite way to show love to others?",
+        "What does love mean to you?",
+        "What are the little things that make you feel loved?",
+        "Your love is inspiring! How do you share it?"
     ],
-    "anticipation": [
-        "It sounds like you have something exciting coming up! Want to share?",
-        "I can sense your excitement! What are you looking forward to?",
-        "Anticipation is such a powerful feeling. Tell me more about it!",
-        "It's always great to have something to look forward to. What’s the story?",
-        "I love your enthusiasm! What’s got you so eager?"
+    "HBR": [
+        "I'm really sorry to hear you're feeling heartbroken. Want to talk about it?",
+        "Breakups can be really tough. How are you coping?",
+        "It’s okay to grieve the loss of a relationship. What are you feeling?",
+        "How can I support you during this tough time?",
+        "Heartbreak can be so painful. Want to share your story?",
+        "It’s okay to take your time healing. How can I help?",
+        "What’s been the hardest part of this experience for you?",
+        "I’m here to listen if you want to share your feelings.",
+        "How do you find comfort during times like this?",
+        "Healing takes time. What helps you feel better?"
+    ],
+    "CHL": [
+        "Chill vibes are the best! What’s helping you relax?",
+        "How do you maintain your chill state of mind?",
+        "What’s your go-to for a relaxing day?",
+        "I love your laid-back attitude! What keeps you calm?",
+        "What activities help you unwind?",
+        "Your chill demeanor is refreshing! How do you achieve it?",
+        "How do you balance relaxation with daily life?",
+        "What’s your favorite way to spend a chill day?",
+        "What brings you peace in a busy world?",
+        "Your chill vibes are contagious! What’s your secret?"
+    ],
+    "PRT": [
+        "Party vibes! What’s the occasion?",
+        "I love a good celebration! What are you celebrating?",
+        "What’s your favorite way to party?",
+        "What events make you feel like partying?",
+        "Your enthusiasm for fun is contagious! What’s the plan?",
+        "How do you like to let loose and have fun?",
+        "What’s your favorite memory from a party?",
+        "What’s the best party you’ve ever attended?",
+        "What’s your party playlist like?",
+        "Your party spirit is inspiring! What’s next on your agenda?"
+    ],
+    "ANG": [
+        "I understand that anger is a natural feeling. What’s causing this frustration?",
+        "It’s okay to feel angry sometimes. Want to talk about it?",
+        "How do you handle feelings of anger?",
+        "What’s been upsetting you lately?",
+        "Your feelings are valid. What’s on your mind?",
+        "It’s important to express anger healthily. Want to vent?",
+        "What triggers your anger, and how do you cope?",
+        "How can I support you while you’re feeling this way?",
+        "What’s a healthy outlet for your anger?",
+        "Your anger is understandable. How can we work through it?"
     ],
     "neutral": [
         "I'm here to listen. Feel free to share whatever’s on your mind.",
@@ -117,7 +193,7 @@ model_to_emotion = {
     "remorse": "SAD",              # Mapped to Sad
     "sadness": "SAD",              # Mapped to Sad
     "surprise": "PRT",             # Mapped to Party
-    "confusion": "NTR",            # Mapped to Neutral (no matching predefined category)
+    "confusion": "neutral",            # Mapped to Neutral (no matching predefined category)
     "curiosity": "FCS",            # Mapped to Focused
     "desire": "MTV",               # Mapped to Motivational
     "grief": "HBR",                # Mapped to Heartbreak
@@ -131,19 +207,19 @@ model_to_emotion = {
     "betrayal": "HBR",             # Mapped to Heartbreak
     "nervousness": "SAD",          # Mapped to Sad (anxiety can lead to sadness)
     "reluctance": "SAD",           # Mapped to Sad (unwillingness can lead to disappointment)
-    "doubt": "NTR",                # Mapped to Neutral (uncertainty doesn't fit other emotions)
+    "doubt": "neutral",                # Mapped to Neutral (uncertainty doesn't fit other emotions)
     "yearning": "LOV",             # Mapped to Love (a deep longing for someone)
     "hope": "MTV",                 # Mapped to Motivational (a feeling of expectation)
-    "indifference": "NTR",         # Mapped to Neutral (lack of interest)
+    "indifference": "neutral",         # Mapped to Neutral (lack of interest)
     "contention": "ANG",           # Mapped to Angry (disagreement can cause anger)
     "euphoria": "HPY",             # Mapped to Happy (intense excitement or happiness)
     "frustration": "ANG",          # Mapped to Angry (a response to obstacles)
     "vulnerability": "SAD",        # Mapped to Sad (feeling exposed can lead to sadness)
     "fascination": "FCS",          # Mapped to Focused (a strong interest)
     "serenity": "CLM",             # Mapped to Calm (state of being calm)
-    "distraction": "NTR",          # Mapped to Neutral (being unfocused)
+    "distraction": "neutral",          # Mapped to Neutral (being unfocused)
     "nostalgia": "CHL",            # Mapped to Chill (sentimental yearning for the past)
-    "apathy": "NTR",               # Mapped to Neutral (lack of feeling or interest)
+    "apathy": "neutral",               # Mapped to Neutral (lack of feeling or interest)
     "satisfaction": "HPY",         # Mapped to Happy (contentment with a situation)
     "discontent": "SAD",           # Mapped to Sad (unhappiness with a situation)
     "rejuvenation": "ENR",         # Mapped to Energetic (feeling refreshed)
@@ -158,11 +234,11 @@ model_to_emotion = {
     "longing": "LOV",              # Mapped to Love (deep desire for someone)
     "hostility": "ANG",            # Mapped to Angry (unfriendly feelings)
     "relaxation": "CLM",           # Mapped to Calm (state of relaxation)
-    "anticipation": "MTV",        # Mapped to Motivational (looking forward to something)
+    "anticipation": "MTV",         # Mapped to Motivational (looking forward to something)
     "desperation": "SAD",          # Mapped to Sad (extreme need can lead to sadness)
     "disappointment": "SAD",       # Mapped to Sad (unmet expectations)
     "zeal": "ENR",                 # Mapped to Energetic (enthusiasm)
-    "ambivalence": "NTR",          # Mapped to Neutral (mixed feelings)
+    "ambivalence": "neutral",          # Mapped to Neutral (mixed feelings)
     "overwhelm": "SAD",            # Mapped to Sad (feeling flooded by emotions)
     "intrigue": "FCS",             # Mapped to Curiosity (a strong interest)
     "tranquility": "CLM",          # Mapped to Calm (peaceful state)
@@ -175,7 +251,7 @@ model_to_emotion = {
     "thrill": "HPY",               # Mapped to Happy (excitement)
     "elation": "HPY",              # Mapped to Happy (extreme joy)
     "apprehension": "SAD",         # Mapped to Sad (fear of what may happen)
-    "ennui": "NTR",                # Mapped to Neutral (feeling of boredom)
+    "ennui": "neutral",                # Mapped to Neutral (feeling of boredom)
     "delight": "HPY",              # Mapped to Happy (great pleasure)
     "melancholy": "SAD",           # Mapped to Sad (deep, persistent sadness)
     "anticipation": "MTV",         # Mapped to Motivational (excitement about the future)
@@ -264,7 +340,7 @@ def fetch_records(emotion):
         records = cursor.fetchall()
         if not records:  # If no records are found for the emotion
             return [f"No songs found for the emotion '{emotion}'."]
-        return [record[0] for record in records] 
+        return [record[0]+" " for record in records] 
     except Exception as e:
         return [f"Error fetching records: {str(e)}"]
     finally:
@@ -315,11 +391,14 @@ def main():
             response = get_response(emotion)
             time.sleep(1)  # simulate processing time
 
+        
             # Fetch records based on the detected emotion
             records = fetch_records(emotion)
-            records_response = "Here are some songs that match your mood:\n" + "\n".join(records) + emotion
-            full_response = f"{response}\n{records_response}"
-
+            records_response = "Here are some songs that match your mood:\n" + "\n".join(records) + " " + emotion + " " +  str(type(records)) 
+            if emotion != "neutral":
+                full_response = f"{response}\n\n{records_response}"
+            else :
+                full_response = f"{response}"
         # Save assistant's response to the session state
         st.session_state.conversation.append({"role": "assistant", "content": full_response})
         with st.chat_message("assistant"):
