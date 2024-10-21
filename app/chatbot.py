@@ -1,9 +1,9 @@
-import streamlit as st # type: ignore # type: ignore
-from transformers import pipeline # type: ignore
-import nltk # type: ignore # type: ignore
+import streamlit as st 
+from transformers import pipeline 
+import nltk 
 import time
 import random
-import mysql.connector # type: ignore
+import mysql.connector 
 
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
@@ -11,17 +11,6 @@ if "chat_history" not in st.session_state:
 
 # download nltk data if not already present
 nltk.download('punkt', quiet=True)
-
-# set streamlit page configuration
-st.set_page_config(
-    page_title="Emotion-recognizing chatbot",
-    page_icon="🤖",
-    layout="centered",
-    initial_sidebar_state="auto",
-)
-
-# title of the app
-st.title("🤖 Emotion-recognizing chatbot")
 
 # initialize session state for conversation history and user name
 if 'conversation' not in st.session_state:
@@ -339,7 +328,7 @@ def fetch_records(emotion):
         )
         cursor = connection.cursor()
         # Query to fetch songs based on the detected emotion
-        query = "SELECT name FROM songs WHERE emotion_id like '%"+ emotion + "%' LIMIT 5"
+        query = "SELECT name FROM songs WHERE emotion_id like '%"+ emotion + "%' ORDER BY RAND() LIMIT 5"
         cursor.execute(query)
         records = cursor.fetchall()
         if not records:  # If no records are found for the emotion
@@ -413,5 +402,3 @@ def main():
         st.session_state.chat_history.append(user_input)
         st.session_state.chat_history.append(assistant_message)
 
-if __name__ == "__main__":
-    main()

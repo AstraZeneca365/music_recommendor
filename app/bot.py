@@ -1,6 +1,7 @@
 import streamlit as st
 import mysql.connector, time
 import form
+import chatbot
 
 
 def decoder(s):
@@ -138,7 +139,6 @@ def main():
         st.write("....Still in development :D")
         if st.button("LET'S CHAT!"):
             st.session_state.intro_visible = False
-            time.sleep(1)
             st.rerun()
 
         elif st.button("Recommend us some songs!"):
@@ -209,139 +209,15 @@ def main():
             st.rerun()
 
     else:
-        # Display the mood input and song recommendation section
-        st.markdown("""
-        <style>
-            .title {
-                color: #FF6347; /* Tomato color */
-                font-size: 36px;
-                font-weight: bold;
-            }
-            .header {
-                color: #4682B4; /* SteelBlue color */
-                font-size: 28px;
-            }
-            .description {
-                color: #32CD32; /* LimeGreen color */
-                font-size: 18px;
-            }
-            .song-details {
-                color: black; /* Main text color */
-                background-color: #ADD8E6; /* Light Blue box color */
-                padding: 10px;
-                border-radius: 5px;
-                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-                margin-bottom: 15px;  /* Add margin at the bottom */
-            }
-            .song-details a {
-                color: #003366; /* Darker hyperlink color */
-            }
-        </style>
-        """, unsafe_allow_html=True)
-
-
-        st.markdown('<p class="title">🎵 Song Recommender Chatbot 🎵</p>', unsafe_allow_html=True)
-
-        st.markdown("""
-        <p class="description">
-        <br> 
-        Describe your mood or enter a sentence that reflects how you're feeling, and we'll recommend some songs that match your mood.
-        </p>
-        """, unsafe_allow_html=True)
-
-        connection = connect_to_database()
-        if not connection:
-            st.error("Failed to connect to database.")
-            return
-
-        cursor = connection.cursor()
-
-        with st.form(key='mood_form'):
-            user_input = st.text_input("Describe your mood:", placeholder="e.g., I am feeling really joyful today.")
-            num_songs = st.selectbox("How many songs would you like?", options=range(1, 11), index=4)
-
-            # Add two columns for buttons
-            col1, col2 = st.columns([2, 1])
-            with col1:
-                submit_button = st.form_submit_button("Get Recommendations")
-            with col1:
-                random_fun_button = st.form_submit_button("Random Song Generator!")
-
-            button_pressed = False
+        if "chat_history" not in st.session_state:
+            st.session_state.chat_history = []
+        if 'conversation' not in st.session_state:
+            st.session_state.conversation = []
+        if 'user_name' not in st.session_state:
+            st.session_state.user_name = ''
             
-            if submit_button:
-                button_pressed =  True
-                if not user_input.strip():
-                    st.warning("Please enter something to get recommendations.")
-                else:
-                    # Identify the mood and corresponding synonym
-                    mood, synonym = identify_emotion_from_sentence(user_input) or (
-                        user_input.capitalize() if user_input.capitalize() in emotions else (None, None))
-
-                    if mood:
-                        # Get the corresponding emotion ID
-                        emotion_id = emotion_ids[emotions.index(mood)]
-
-                        # Fetch songs based on the identified emotion
-                        songs = fetch_songs_by_emotion(cursor, emotion_id, limit=num_songs)
-
-                        if songs:
-                            display_mood = synonym if synonym else mood
-                            st.markdown(f'<p class="header">Here are some amazing songs for "{display_mood}":</p>',
-                                        unsafe_allow_html=True)
-                            
-                            for song in songs:
-                                ei = song[2]
-                                ei = ei.replace(emotion_id,"")
-                                ei = decoder(ei)
-                                if ei == "":
-                                    ei = "N/A"
-
-                                st.markdown(f"""
-                                <div class="song-details">
-                                    <strong>Name:</strong> {song[0]}<br>
-                                    <strong>Artist:</strong> {song[1]}<br>
-                                    <strong>Alternate Emotion:</strong> {ei}<br>
-                                    <strong>Genre:</strong> {song[3]}<br>
-                                    <strong>Spotify Link:</strong> <a href="{song[4]}">{song[0]}</a>
-                                </div>
-                                """, unsafe_allow_html=True)
-                        else:
-                            st.warning(f"No songs found for '{mood}'.")
-                    else:
-                        st.error("Sorry, I don't understand that mood. Please try again.")
-
-            elif random_fun_button:
-                # Fetch a random song
-                button_pressed = True
-                query = """
-                    SELECT *  
-                    FROM songs 
-                    ORDER BY RAND() 
-                    LIMIT 1;
-                """
-                # name artist, em_id, genre, spotify
-
-                cursor.execute(query)
-                random_song = cursor.fetchone()
-                ei = decoder(random_song[2])
-
-                if random_song:
-                    st.markdown(f'<p class="header">Here is a random song for you:</p>', unsafe_allow_html=True)
-                    st.markdown(f"""
-                    <div class="song-details">
-                        <strong>Name:</strong> {random_song[0]}<br>
-                        <strong>Artist:</strong> {random_song[1]}<br>
-                        <strong>Emotion:</strong> {ei}<br>
-                        <strong>Genre:</strong> {random_song[3]}<br>
-                        <strong>Spotify Link:</strong> <a href="{random_song[4]}">{random_song[0]}</a>
-                    </div>
-                    """, unsafe_allow_html=True)
-                else:
-                    st.warning("No songs found.")
-
-            cursor.close()
-            connection.close()
+        st.title("🤖 Emotion-recognizing chatbot")
+        chatbot.main()
 
         if st.button("Go To Home Page"):
             st.session_state.song_form_visible = False
