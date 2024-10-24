@@ -1,9 +1,9 @@
-import streamlit as st 
-from transformers import pipeline 
-import nltk 
+import streamlit as st  # type: ignore
+from transformers import pipeline  # type: ignore
+import nltk  # type: ignore
 import time
 import random
-import mysql.connector 
+import mysql.connector  # type: ignore
 
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
@@ -186,7 +186,7 @@ model_to_emotion = {
     "remorse": "SAD",              # Mapped to Sad
     "sadness": "SAD",              # Mapped to Sad
     "surprise": "PRT",             # Mapped to Party
-    "confusion": "neutral",            # Mapped to Neutral (no matching predefined category)
+    "confusion": "neutral",        # Mapped to Neutral (no matching predefined category)
     "curiosity": "FCS",            # Mapped to Focused
     "desire": "MTV",               # Mapped to Motivational
     "grief": "HBR",                # Mapped to Heartbreak
@@ -200,19 +200,19 @@ model_to_emotion = {
     "betrayal": "HBR",             # Mapped to Heartbreak
     "nervousness": "SAD",          # Mapped to Sad (anxiety can lead to sadness)
     "reluctance": "SAD",           # Mapped to Sad (unwillingness can lead to disappointment)
-    "doubt": "neutral",                # Mapped to Neutral (uncertainty doesn't fit other emotions)
+    "doubt": "neutral",            # Mapped to Neutral (uncertainty doesn't fit other emotions)
     "yearning": "LOV",             # Mapped to Love (a deep longing for someone)
     "hope": "MTV",                 # Mapped to Motivational (a feeling of expectation)
-    "indifference": "neutral",         # Mapped to Neutral (lack of interest)
+    "indifference": "neutral",     # Mapped to Neutral (lack of interest)
     "contention": "ANG",           # Mapped to Angry (disagreement can cause anger)
     "euphoria": "HPY",             # Mapped to Happy (intense excitement or happiness)
     "frustration": "ANG",          # Mapped to Angry (a response to obstacles)
     "vulnerability": "SAD",        # Mapped to Sad (feeling exposed can lead to sadness)
     "fascination": "FCS",          # Mapped to Focused (a strong interest)
     "serenity": "CLM",             # Mapped to Calm (state of being calm)
-    "distraction": "neutral",          # Mapped to Neutral (being unfocused)
+    "distraction": "neutral",      # Mapped to Neutral (being unfocused)
     "nostalgia": "CHL",            # Mapped to Chill (sentimental yearning for the past)
-    "apathy": "neutral",               # Mapped to Neutral (lack of feeling or interest)
+    "apathy": "neutral",           # Mapped to Neutral (lack of feeling or interest)
     "satisfaction": "HPY",         # Mapped to Happy (contentment with a situation)
     "discontent": "SAD",           # Mapped to Sad (unhappiness with a situation)
     "rejuvenation": "ENR",         # Mapped to Energetic (feeling refreshed)
@@ -231,7 +231,7 @@ model_to_emotion = {
     "desperation": "SAD",          # Mapped to Sad (extreme need can lead to sadness)
     "disappointment": "SAD",       # Mapped to Sad (unmet expectations)
     "zeal": "ENR",                 # Mapped to Energetic (enthusiasm)
-    "ambivalence": "neutral",          # Mapped to Neutral (mixed feelings)
+    "ambivalence": "neutral",      # Mapped to Neutral (mixed feelings)
     "overwhelm": "SAD",            # Mapped to Sad (feeling flooded by emotions)
     "intrigue": "FCS",             # Mapped to Curiosity (a strong interest)
     "tranquility": "CLM",          # Mapped to Calm (peaceful state)
@@ -244,7 +244,7 @@ model_to_emotion = {
     "thrill": "HPY",               # Mapped to Happy (excitement)
     "elation": "HPY",              # Mapped to Happy (extreme joy)
     "apprehension": "SAD",         # Mapped to Sad (fear of what may happen)
-    "ennui": "neutral",                # Mapped to Neutral (feeling of boredom)
+    "ennui": "neutral",            # Mapped to Neutral (feeling of boredom)
     "delight": "HPY",              # Mapped to Happy (great pleasure)
     "melancholy": "SAD",           # Mapped to Sad (deep, persistent sadness)
     "anticipation": "MTV",         # Mapped to Motivational (excitement about the future)
@@ -343,19 +343,19 @@ def fetch_records(emotion):
 
 def display_conversation():
     """
-    Display the entire conversation history with transparent message boxes.
+    Display the entire conversation history without the extra background box.
     """
     for msg in st.session_state.conversation:
         if msg['role'] == 'user':
             with st.chat_message("user"):
                 st.markdown(
-                    f"<p style='background-color: rgba(255, 255, 255, 0.5); padding: 10px; border-radius: 10px; margin: -10px 0 0 0;'> {msg['content']} </p>",
+                    f"<p style='margin: -10px 0 0 0;'> {msg['content']} </p>", 
                     unsafe_allow_html=True
                 )
         else:
             with st.chat_message("assistant"):
                 st.markdown(
-                    f"<p style='background-color: rgba(255, 255, 255, 0.5); padding: 10px; border-radius: 10px; margin: -10px 0 0 0;'> {msg['content']} </p>",
+                    f"<p style='margin: -10px 0 0 0;'> {msg['content']} </p>", 
                     unsafe_allow_html=True
                 )
 
@@ -369,36 +369,35 @@ def main():
         # Save user's message to the session state
         st.session_state.conversation.append({"role": "user", "content": user_input})
         with st.chat_message("user"):
-            st.markdown(f"<p style='background-color: rgba(255, 255, 255, 0.5); padding: 10px; border-radius: 10px; margin: -10px 0 0 0;'> {user_input} </p>", unsafe_allow_html=True)
+            st.markdown(f"<p style='margin: -10px 0 0 0;'> {user_input} </p>", unsafe_allow_html=True)
 
         with st.spinner("Analyzing your message..."):
             emotion, score = detect_emotion(user_input)
             response = get_response(emotion)
             time.sleep(1)  # simulate processing time
 
-            # Fetch records based on the detected emotion
-            records = fetch_records(emotion)
-            if records:
-                # Format the response with bullet points
-                songs_display = "\n".join(f"- {song}" for song in records)  # Create a bullet point list
-                assistant_message = f"{response}\n\nHere are some song recommendations based on your mood:\n\n{songs_display}"
-            else:
-                assistant_message = f"{response}\n\n{records[0]}"  # Display error message if no records found
+            assistant_message = response  # Default message without song recommendations
+
+            # Only fetch records if the emotion is not neutral
+            if emotion.lower() != "neutral":
+                # Fetch records based on the detected emotion
+                records = fetch_records(emotion)
+                if records:
+                    # Format the response with bullet points
+                    songs_display = "\n".join(f"- {song}" for song in records)  # Create a bullet point list
+                    assistant_message += f"\n\nHere are some song recommendations based on your mood:\n\n{songs_display}"
+
+            # Display message (for both with/without song recommendations)
+            with st.chat_message("assistant"):
+                st.markdown(
+                    f"<p style='margin: -10px 0 0 0;'> {assistant_message} </p>",
+                    unsafe_allow_html=True
+                )
 
             # Save assistant's message to the session state
             st.session_state.conversation.append({"role": "assistant", "content": assistant_message})
 
-            with st.chat_message("assistant"):
-                st.markdown(
-                    f"<p style='background-color: rgba(255, 255, 255, 0.5); padding: 10px; border-radius: 10px; margin: -10px 0 0 0;'>"
-                    f"<strong>{response}</strong><br>"
-                    f"<span style='color: white;'>Here are some songs that match your mood:</span><br>"
-                    f"<ul style='margin: 5px 0; padding-left: 20px;'>"
-                    f"{''.join(f'<li>{record}</li>' for record in records)}"
-                    f"</ul>"
-                    "</p>",
-                    unsafe_allow_html=True
-                )
         st.session_state.chat_history.append(user_input)
         st.session_state.chat_history.append(assistant_message)
 
+main()
