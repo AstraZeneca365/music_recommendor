@@ -64,7 +64,7 @@ def form():
             result2 = cursor.fetchone()
 
             if (not result1) and (not result2):
-                t = f"('{name}',                            '{artist}',                    '{emotion_id}',                  '{genre}',                  '{spotify_link}')"
+                t = f"('{name}',\t\t\t'{artist}',\t\t\t'{emotion_id}',\t'{genre}',\t\t'{spotify_link}')"
                 s = f"INSERT INTO rc_songs (name, artist, emotion_id, genre, spotify_link) VALUES {t}"
                 
                 cursor.execute(s)
