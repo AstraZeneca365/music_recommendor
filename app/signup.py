@@ -1,11 +1,13 @@
-import streamlit as st
+import streamlit as st # type: ignore
 import os
 import re
+import bcrypt # type: ignore
 
 def save_user_info(username, password):
+    # Hash the password using bcrypt
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     with open("users.txt", "a") as file:
-        file.write(f"{username} {password}\n")
-
+        file.write(f"{username} {hashed_password}\n")
 
 def username_exists(username):
     if not os.path.exists("users.txt"):
@@ -17,7 +19,6 @@ def username_exists(username):
                 return True
     return False
 
-
 def is_valid_password(password):
     # Check for 8 chars minimum, 1 uppercase, 1 lowercase, 1 digit, 1 special character
     if (len(password) >= 8 and
@@ -27,7 +28,6 @@ def is_valid_password(password):
         re.search(r'[\W_]', password)):  # \W matches any non-word character, _ is included for underscore
         return True
     return False
-
 
 def main():
     st.title("Sign Up")
