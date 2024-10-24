@@ -44,9 +44,23 @@ def set_background():
         background-image: url("data:image/png;base64,{bin_str}");
         background-size: cover;
         background-position: center;
+        background-repeat: no-repeat;
+        color: white;  /* Change text color if needed */
     }}
+
+    /* Hide the rerun button only */
+    .stButton[data-testid="stRunButton"] {{
+        visibility: hidden; /* Keeps the space but hides the rerun button */
+    }}
+
+    /* Hide the header 
+    .stApp > header {{
+        visibility: hidden; /* Keeps the space but hides the header */
+    }}*/
+    
     </style>
-    '''
+'''
+
     st.markdown(page_bg_img, unsafe_allow_html=True)
 
 
