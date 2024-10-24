@@ -2,6 +2,7 @@ import streamlit as st
 import mysql.connector, time
 import form
 import chatbot
+import main,signup,login
 
 
 def decoder(s):
@@ -139,7 +140,6 @@ def main():
         st.write("....Still in development :D")
         if st.button("LET'S CHAT!"):
             st.session_state.chat_history = []
-            st.session_state.conversation = []
             st.session_state.intro_visible = False
             st.rerun()
 
@@ -153,6 +153,12 @@ def main():
             st.session_state.intro_visible = False
             st.session_state.search_form_visible = True
             time.sleep(1)
+            st.rerun()
+        
+        elif st.button("Log Out", key="logout_button"):
+            st.session_state.page = "login"
+            st.session_state.logged_in = False
+            st.session_state.username = None
             st.rerun()
 
     elif song_form_visible:

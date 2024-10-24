@@ -84,12 +84,7 @@ def main():
         login.main()  # Call the login function from login.py
 
     elif st.session_state.page == "bot":
-        bot.main()  # Call the main bot function from bot.py
-        if st.button("Log Out"):
-            st.session_state.page = "login"
-            st.session_state.logged_in = False
-            st.session_state.username = None
-            st.rerun()
+        bot.main() 
 
 if __name__ == "__main__":
     main()
