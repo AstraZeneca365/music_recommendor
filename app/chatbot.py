@@ -399,5 +399,3 @@ def main():
 
         st.session_state.chat_history.append(user_input)
         st.session_state.chat_history.append(assistant_message)
-
-main()
