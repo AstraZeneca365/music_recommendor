@@ -1,6 +1,7 @@
 import streamlit as st  # type: ignore
 import os
 import bcrypt # type: ignore
+import time
 
 # Function to save a new user with a hashed password
 def save_user(username, password):
@@ -56,8 +57,9 @@ def main():
                 if st.button("Log In"):
                     if not username or not password:
                         error_message = "Please fill out both fields."
-                    elif validate_user(username, password):
-                        st.success("You have successfully logged in!")
+                    elif validate_user(username.strip(), password):
+                        st.toast('You have successfully logged in!', icon='✅' )
+                        time.sleep(1.5)
                         st.session_state['logged_in'] = True
                         st.session_state['username'] = username
                         st.session_state.page = "bot"  # Navigate to bot page
@@ -73,7 +75,7 @@ def main():
 
             # Display error message outside the column layout
             if error_message:
-                st.error(error_message)
+                st.toast(error_message , icon = "❗")
 
     elif st.session_state.page == "signup":
         signup()

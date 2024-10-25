@@ -2,8 +2,7 @@ import streamlit as st
 import mysql.connector, time
 import form
 import chatbot
-import main,signup,login
-
+import random
 
 def decoder(s):
     s.strip()
@@ -38,6 +37,16 @@ def search_song_by_title_or_artist(cursor, tora):
         """
         cursor.execute(query)
         songs = cursor.fetchall()
+        
+        query = f"""
+            SELECT *
+            FROM rc_songs
+            WHERE name LIKE '%{tora}%' or artist like '%{tora}%' 
+            ORDER BY name;
+        """
+        cursor.execute(query)
+        songs += cursor.fetchall()
+        
         return songs
     except mysql.connector.Error as err:
         st.error(f"MySQL Error: {err}")
@@ -84,10 +93,23 @@ def fetch_songs_by_emotion(cursor, emotion_id, limit=5):
             FROM songs 
             WHERE emotion_id like '%{emotion_id}%'
             ORDER BY RAND() 
-            LIMIT {limit};
+            LIMIT {limit}
         """
         cursor.execute(query)
         songs = cursor.fetchall()
+
+        query = f"""
+            SELECT *
+            FROM rc_songs
+            WHERE emotion_id like '%{emotion_id}%' 
+            ORDER BY rand()
+            LIMIT {limit}
+        """
+        cursor.execute(query)
+        songs += cursor.fetchall()
+        random.shuffle(songs)
+        songs = songs[0:limit]
+
         return songs
     except mysql.connector.Error as err:
         st.error(f"MySQL Error: {err}")
@@ -140,6 +162,7 @@ def main():
         st.write("....Still in development :D")
         if st.button("LET'S CHAT!"):
             st.session_state.chat_history = []
+            st.session_state.conversation = []
             st.session_state.intro_visible = False
             st.rerun()
 
@@ -235,5 +258,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 

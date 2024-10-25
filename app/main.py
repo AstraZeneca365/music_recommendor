@@ -52,12 +52,6 @@ def set_background():
     .stButton[data-testid="stRunButton"] {{
         visibility: hidden; /* Keeps the space but hides the rerun button */
     }}
-
-    /* Hide the header 
-    .stApp > header {{
-        visibility: hidden; /* Keeps the space but hides the header */
-    }}*/
-    
     </style>
 '''
 
@@ -72,7 +66,6 @@ def main():
         st.session_state.page = "signup"
 
     if st.session_state.page == "signup":
-        st.title("Sign Up for the Song Recommender System")
         signup.main()  # Call the signup function from signup.py
         st.write("Already have an account?")
         if st.button("Login"):
@@ -80,7 +73,6 @@ def main():
             st.rerun()
 
     elif st.session_state.page == "login":
-        st.title("Login to Your Account")
         login.main()  # Call the login function from login.py
 
     elif st.session_state.page == "bot":

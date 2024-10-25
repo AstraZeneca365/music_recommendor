@@ -2,6 +2,7 @@ import streamlit as st # type: ignore
 import os
 import re
 import bcrypt # type: ignore
+import time
 
 def save_user_info(username, password):
     # Hash the password using bcrypt
@@ -37,14 +38,14 @@ def main():
 
     if st.button("Sign Up"):
         if not username or not password:
-            st.error("Please fill out all fields.")
+            st.toast("Please fill out all fields.", icon = "❗")
         elif username_exists(username):
-            st.error("Username already exists. Please choose a different one.")
+            st.toast("Username already exists. Please choose a different one.", icon = "❗")
         elif not is_valid_password(password):
-            st.error("Password must be at least 8 characters long, with at least one uppercase letter, one lowercase letter, one digit, and one special character.")
+            st.toast("Password must be at least 8 characters long, with at least one uppercase letter, one lowercase letter, one digit, and one special character.", icon = "❗")
         else:
             save_user_info(username, password)
-            st.success("You have successfully signed up! You can now log in.")
+            st.toast("You have successfully signed up! You can now log in.", icon = "✅")
             st.session_state.page = "login"  # Automatically switch to login page
 
 

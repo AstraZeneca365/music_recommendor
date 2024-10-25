@@ -8,10 +8,6 @@ import mysql.connector  # type: ignore
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
-
-# download nltk data if not already present
-nltk.download('punkt', quiet=True)
-
 # initialize session state for conversation history and user name
 if 'conversation' not in st.session_state:
     st.session_state.conversation = []

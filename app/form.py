@@ -67,7 +67,7 @@ def form():
                     (name, artist, emotion_id, genre, spotify_link)
                 )
                 connection.commit()
-                st.success("Thanks for your recommendation!")
+                st.toast('Thanks for the recommendation', icon='😍')
             else:
                 st.warning("This song has already been recommended.")
 

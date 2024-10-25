@@ -4,7 +4,7 @@ import streamlit as st
 
 
 # Single correct bubble option
-"""genre = st.radio(
+genre = st.radio(
      "What's your favorite movie genre",
      [":rainbow[Comedy]", "***Drama***", "Documentary :movie_camera:"],
      index=None,
@@ -48,15 +48,6 @@ def f(x):
 f("submitting")
 st.toast('Your edited image was saved!', icon='😍')
 st.text("Hello")
-"""
 
 
-import streamlit as st
-import time
 
-with st.empty():
-    with st.spinner('Wait for it...'):
-        time.sleep(5)
-    st.success("Done!")
-
-st.spinner()
