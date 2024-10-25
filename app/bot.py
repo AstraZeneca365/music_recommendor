@@ -137,7 +137,6 @@ def main():
         # Display the home page
         st.title("Home")
         st.write("This is Spots. I love to talk to people and recommend you some cool songs based on your mood!")
-        st.write("....Still in development :D")
         if st.button("LET'S CHAT!"):
             st.session_state.chat_history = []
             st.session_state.intro_visible = False
