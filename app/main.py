@@ -47,15 +47,20 @@ def set_background():
         background-repeat: no-repeat;
         color: white;  /* Change text color if needed */
     }}
-
-    /* Hide the rerun button only */
-    .stButton[data-testid="stRunButton"] {{
-        visibility: hidden; /* Keeps the space but hides the rerun button */
-    }}
+    
     </style>
-'''
+    '''
 
     st.markdown(page_bg_img, unsafe_allow_html=True)
+
+
+def get_text_color():
+    hour = datetime.now().hour
+    if hour >= 5 and hour < 15:
+        text_color = "#000000"  # Black during day
+    else:
+        text_color = "#FFFFFF"  # White during night
+    return text_color
 
 
 def main():
@@ -65,10 +70,14 @@ def main():
     if "page" not in st.session_state:
         st.session_state.page = "signup"
 
+    text_color = get_text_color()  # Get the text color based on the time of day
+
     if st.session_state.page == "signup":
         signup.main()  # Call the signup function from signup.py
-        st.write("Already have an account?")
-        if st.button("Login"):
+        
+        st.markdown(f'<p style="color:{text_color}; font-size:25px;">Already have an account?</p>', unsafe_allow_html=True)
+
+        if st.button("Go to Login Page"):
             st.session_state.page = "login"
             st.rerun()
 

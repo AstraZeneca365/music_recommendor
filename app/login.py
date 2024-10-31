@@ -7,7 +7,7 @@ import time
 def save_user(username, password):
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     with open("users.txt", "a") as file:
-        file.write(f"{username} {hashed_password}\n")
+        file.write(f"{username} {hashed_password}\n")
 
 # Function to validate user credentials
 def validate_user(username, password):
@@ -15,24 +15,10 @@ def validate_user(username, password):
         return False
     with open("users.txt", "r") as file:
         for line in file:
-            stored_username, stored_hashed_password = line.strip().split(" ")
+            stored_username, stored_hashed_password = line.strip().split(" ")
             if stored_username == username and bcrypt.checkpw(password.encode('utf-8'), stored_hashed_password.encode('utf-8')):
                 return True
     return False
-
-# Function for the signup process
-def signup():
-    st.title("Sign Up")
-
-    username = st.text_input("Choose a username")
-    password = st.text_input("Choose a password", type="password")
-    
-    if st.button("Sign Up"):
-        if not username or not password:
-            st.error("Please fill out both fields.")
-        else:
-            save_user(username, password)
-            st.success("You have successfully signed up! You can now log in.")
 
 # Main function to run the Streamlit app
 def main():
@@ -42,8 +28,8 @@ def main():
     if st.session_state.page == "login":
         st.title("Log In")
 
-        username = st.text_input("Enter your username")
-        password = st.text_input("Enter your password", type="password")
+        username = st.text_input("", placeholder="Enter Username")
+        password = st.text_input("", type="password", placeholder="Enter Password")
 
         # Create a container for buttons to control spacing
         button_container = st.container()

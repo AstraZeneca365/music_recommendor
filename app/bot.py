@@ -3,6 +3,7 @@ import mysql.connector, time
 import form
 import chatbot
 import random
+from datetime import datetime
 
 def decoder(s):
     s.strip()
@@ -124,6 +125,15 @@ def identify_emotion_from_sentence(sentence):
                 return emotion, synonym
     return None, None
 
+def get_text_color():
+    hour = datetime.now().hour
+    if hour >= 5 and hour < 15:
+        text_color = "#000000"  # Black for daytime
+    else:
+        text_color = "#FFFFFF"  # White for nighttime
+    return text_color
+
+
 def main():
     # CSS for fade-out animation and styling
     fade_style = """
@@ -158,26 +168,53 @@ def main():
     if intro_visible and not song_form_visible and not search_form_visible:
         # Display the home page
         st.title("Home")
-        st.write("This is Spots. I love to talk to people and recommend you some cool songs based on your mood!")
-        if st.button("LET'S CHAT!"):
-            st.session_state.chat_history = []
-            st.session_state.conversation = []
-            st.session_state.intro_visible = False
-            st.rerun()
+        text_color = get_text_color() 
+        st.markdown(f'<p style="color:{text_color}; font-size: 24px; font-family: Arial, sans-serif;">This is Spots. I love to talk to people and recommend you some cool songs based on your mood!</p>', unsafe_allow_html=True)        
 
-        elif st.button("Recommend us some songs!"):
-            st.session_state.intro_visible = False
-            st.session_state.song_form_visible = True
-            time.sleep(1)
-            st.rerun()
+        # Layout for the chat button and description
+        col1, col2 = st.columns([1, 3])  # Adjust the column ratios as needed
 
-        elif st.button("Search for a Song"):
-            st.session_state.intro_visible = False
-            st.session_state.search_form_visible = True
-            time.sleep(1)
-            st.rerun()
-        
-        elif st.button("Log Out", key="logout_button"):
+        with col1:
+            if st.button("LET'S CHAT!", key="chat_button", use_container_width=False):
+                st.session_state.chat_history = []
+                st.session_state.conversation = []
+                st.session_state.intro_visible = False
+                st.rerun()
+        with col2:
+            st.markdown("""
+                <p style="color: #555555; font-size: 16px; font-family: Arial, sans-serif;">Engage in a conversation with our chatbot and find song recommendations tailored to your mood.</p>
+            """, unsafe_allow_html=True)
+
+        # Layout for the song recommendation button and description
+        col1, col2 = st.columns([1, 3])  # Reusing columns
+
+        with col1:
+            if st.button("Recommend us some songs!", key="recommend_button", use_container_width=False):
+                st.session_state.intro_visible = False
+                st.session_state.song_form_visible = True
+                time.sleep(1)
+                st.rerun()
+        with col2:
+            st.markdown("""
+                <p style="color: #555555; font-size: 16px; font-family: Arial, sans-serif;">Have a song in mind that's not listed? You can add it here! Let's build the perfect playlist together!</p>
+            """, unsafe_allow_html=True)
+
+        # Layout for the search button and description
+        col1, col2 = st.columns([1, 3])  # Reusing columns
+
+        with col1:
+            if st.button("Search for a Song", key="search_button", use_container_width=False):
+                st.session_state.intro_visible = False
+                st.session_state.search_form_visible = True
+                time.sleep(1)
+                st.rerun()
+        with col2:
+            st.markdown("""
+                <p style="color: #555555; font-size: 16px; font-family: Arial, sans-serif;">Looking for a specific song? Enter its title or artist name, and we’ll help you find it!</p>
+            """, unsafe_allow_html=True)
+
+        # Button for logging out
+        if st.button("Log Out", key="logout_button", use_container_width=False):
             st.session_state.page = "login"
             st.session_state.logged_in = False
             st.session_state.username = None

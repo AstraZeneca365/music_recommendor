@@ -4,6 +4,7 @@ import nltk  # type: ignore
 import time
 import random
 import mysql.connector  # type: ignore
+from datetime import datetime
 
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
@@ -341,6 +342,7 @@ def display_conversation():
     """
     Display the entire conversation history without the extra background box.
     """
+    text_color = get_text_color()
     for msg in st.session_state.conversation:
         if msg['role'] == 'user':
             with st.chat_message("user"):
@@ -351,15 +353,30 @@ def display_conversation():
         else:
             with st.chat_message("assistant"):
                 st.markdown(
-                    f"<p style='margin: -10px 0 0 0;'> {msg['content']} </p>", 
+                    f"<p style='margin: -10px 0 0 0; color: {text_color};'> {msg['content']} </p>", 
                     unsafe_allow_html=True
                 )
+def get_text_color():
+    hour = datetime.now().hour
+    if hour >= 5 and hour < 15:
+        text_color = "#000000" 
+    elif hour >= 15 and hour < 5:
+        text_color = "#FFFFFF"
+
+    return text_color
+
 
 def main():
     """
     Main function to run the Streamlit chatbot app.
     """
-    display_conversation()
+    text_color = get_text_color()
+
+    if st.session_state.conversation:
+        display_conversation()  # Show chat history if messages exist
+    else:
+        # If no conversation yet, display prompt
+        st.markdown("<h4 style='color:gray;'>Type something to start the conversation...</h4>", unsafe_allow_html=True)
 
     if user_input := st.chat_input("Type your message here..."):
         # Save user's message to the session state
@@ -371,6 +388,7 @@ def main():
             emotion, score = detect_emotion(user_input)
             response = get_response(emotion)
             time.sleep(1)  # simulate processing time
+        
 
             assistant_message = response  # Default message without song recommendations
 
@@ -380,18 +398,20 @@ def main():
                 records = fetch_records(emotion)
                 if records:
                     # Format the response with bullet points
-                    songs_display = "\n".join(f"- {song}" for song in records)  # Create a bullet point list
-                    assistant_message += f"\n\nHere are some song recommendations based on your mood:\n\n{songs_display}"
+                    songs_display = f"<ul style='color: {text_color};'>" + "".join(f"<li>{song}</li>" for song in records) + "</ul>"
+                    recommendation_message = f"<span style='color: {text_color}; font-size: 18px;'><strong>Here are some song recommendations based on your mood:</strong></span>"                    
+                    assistant_message += f"<br>{recommendation_message}<br>{songs_display}"
+
 
             # Display message (for both with/without song recommendations)
             with st.chat_message("assistant"):
                 st.markdown(
-                    f"<p style='margin: -10px 0 0 0;'> {assistant_message} </p>",
+                    f"<p style='margin: -10px 0 0 0; color: {text_color}'> {assistant_message} </p>",
                     unsafe_allow_html=True
                 )
-
             # Save assistant's message to the session state
-            st.session_state.conversation.append({"role": "assistant", "content": assistant_message})
+            st.session_state.conversation.append({"role": "assistant", "content": assistant_message, "color":text_color})
+            st.rerun()
 
         st.session_state.chat_history.append(user_input)
         st.session_state.chat_history.append(assistant_message)
