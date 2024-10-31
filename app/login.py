@@ -1,12 +1,13 @@
 import streamlit as st  # type: ignore
 import os
-import bcrypt  # type: ignore
+import bcrypt # type: ignore
+import time
 
 # Function to save a new user with a hashed password
 def save_user(username, password):
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     with open("users.txt", "a") as file:
-        file.write(f"{username} {hashed_password}\n")
+        file.write(f"{username} {hashed_password}\n")
 
 # Function to validate user credentials
 def validate_user(username, password):
@@ -41,8 +42,8 @@ def main():
     if st.session_state.page == "login":
         st.title("Log In")
 
-        username = st.text_input("", placeholder="Enter Username")
-        password = st.text_input("", type="password", placeholder="Enter Password")
+        username = st.text_input(" ",placeholder = "Enter your username")
+        password = st.text_input(" ", placeholder = "Enter your password", type="password")
 
         # Create a container for buttons to control spacing
         button_container = st.container()
@@ -56,12 +57,13 @@ def main():
                 if st.button("Log In"):
                     if not username or not password:
                         error_message = "Please fill out both fields."
-                    elif validate_user(username, password):
-                        st.success("You have successfully logged in!")
+                    elif validate_user(username.strip(), password):
+                        st.toast('You have successfully logged in!', icon='✅' )
+                        time.sleep(1.5)
                         st.session_state['logged_in'] = True
                         st.session_state['username'] = username
-                        st.session_state.page = "main"  # Redirect to main.py
-                        st.rerun()  # Refresh to show main page
+                        st.session_state.page = "bot"  # Navigate to bot page
+                        st.rerun()  # Refresh to show bot page
                     else:
                         error_message = "Invalid username or password. Please try again."
 
@@ -73,8 +75,10 @@ def main():
 
             # Display error message outside the column layout
             if error_message:
-                st.error(error_message)
+                st.toast(error_message , icon = "❗")
 
+    elif st.session_state.page == "signup":
+        signup()
 
 if __name__ == "__main__":
     main()
