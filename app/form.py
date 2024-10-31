@@ -132,6 +132,5 @@ def form():
             cursor.close()
             connection.close()
 
-# Call the form function to run the app
 if __name__ == "__main__":
     form()
