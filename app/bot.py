@@ -133,6 +133,13 @@ def get_text_color():
         text_color = "#FFFFFF"  # White for nighttime
     return text_color
 
+def get_text_color_for_desc():
+    hour = datetime.now().hour
+    if hour >= 5 and hour < 15:
+        text_color = "#555555" 
+    else:
+        text_color = "#DDDDDD"
+    return text_color
 
 def main():
     # CSS for fade-out animation and styling
@@ -168,7 +175,8 @@ def main():
     if intro_visible and not song_form_visible and not search_form_visible:
         # Display the home page
         st.title("Home")
-        text_color = get_text_color() 
+        text_color = get_text_color()
+        text_color_for_desc = get_text_color_for_desc()
         st.markdown(f'<p style="color:{text_color}; font-size: 24px; font-family: Arial, sans-serif;">This is Spots. I love to talk to people and recommend you some cool songs based on your mood!</p>', unsafe_allow_html=True)        
 
         # Layout for the chat button and description
@@ -181,8 +189,10 @@ def main():
                 st.session_state.intro_visible = False
                 st.rerun()
         with col2:
-            st.markdown("""
-                <p style="color: #555555; font-size: 16px; font-family: Arial, sans-serif;">Engage in a conversation with our chatbot and find song recommendations tailored to your mood.</p>
+            st.markdown(f"""
+                <p style="color: {text_color_for_desc}; font-size: 16px; font-family: Arial, sans-serif;">
+                Engage in a conversation with our chatbot and find song recommendations tailored to your mood.
+                </p>
             """, unsafe_allow_html=True)
 
         # Layout for the song recommendation button and description
@@ -195,8 +205,10 @@ def main():
                 time.sleep(1)
                 st.rerun()
         with col2:
-            st.markdown("""
-                <p style="color: #555555; font-size: 16px; font-family: Arial, sans-serif;">Have a song in mind that's not listed? You can add it here! Let's build the perfect playlist together!</p>
+            st.markdown(f"""
+                <p style="color: {text_color_for_desc}; font-size: 16px; font-family: Arial, sans-serif;">
+                Have a song in mind that's not listed? You can add it here! Let's build the perfect playlist together!
+                </p>
             """, unsafe_allow_html=True)
 
         # Layout for the search button and description
@@ -209,8 +221,10 @@ def main():
                 time.sleep(1)
                 st.rerun()
         with col2:
-            st.markdown("""
-                <p style="color: #555555; font-size: 16px; font-family: Arial, sans-serif;">Looking for a specific song? Enter its title or artist name, and we’ll help you find it!</p>
+            st.markdown(f"""
+                <p style="color: {text_color_for_desc}; font-size: 16px; font-family: Arial, sans-serif;">
+                Looking for a specific song? Enter its title or artist name, and we’ll help you find it!
+                </p>
             """, unsafe_allow_html=True)
 
         # Button for logging out

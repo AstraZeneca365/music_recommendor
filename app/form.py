@@ -9,6 +9,12 @@ valid_emotions = {
     "CHL": "Chill", "PRT": "Party", "ANG": "Angry", "HPY": "Happy"
 }
 
+# Define genres
+genres = [
+    "Pop", "Rock", "Jazz", "EDM","Indie-Pop","Funk","Rap", 
+    "Bollywood","Carnatic","Hindustani","Ghazal", "Indie"
+]
+
 def get_selected_emotion_ids(selected_emotions):
     selected_ids = [emotion_id for emotion_id, emotion in valid_emotions.items() if emotion in selected_emotions]
     return " " + ' '.join(selected_ids) + " "
@@ -29,70 +35,47 @@ def form():
     st.markdown(f"""
         <style>
             .input-label {{
-                font-size: 18px; /* Change this value to adjust the font size */
-                font-family: Arial, sans-serif; /* You can change the font family */
-                margin-bottom: -35px; /* No space between the label and input field */
-                color: {text_color}; /* Dynamic color based on time */
-            }}
-            .input-label-select-mood {{
-                font-size: 18px; /* Change this value to adjust the font size */
-                font-family: Arial, sans-serif; /* You can change the font family */
-                margin-bottom: 0px; /* No space between the label and input field */
-                color: {text_color}; /* Dynamic color based on time */
-            }}
-            .mood-label {{
-                font-size: 18px; /* Change this value to adjust the font size */
-                font-family: Arial, sans-serif; /* You can change the font family */
-                color: {text_color}; /* Dynamic color based on time */
-                display: inline; /* Ensures the label is inline with the checkbox */
-                margin-left: 5px; /* Space between checkbox and label */
-            }}
-            .checkbox-container {{
-                display: inline-block; /* Allows checkboxes to be inline */
-                margin-right: 20px; /* Space between checkboxes */
+                font-size: 18px;
+                font-family: Arial, sans-serif;
+                margin-bottom: -15px;
+                color: {text_color}; 
             }}
         </style>
     """, unsafe_allow_html=True)
 
     with st.form(key='recommendation_form'):
-        # Song name input with spacing
+        # Song name input
         st.markdown('<p class="input-label">Enter the name of the song:</p>', unsafe_allow_html=True)
         name = st.text_input("", placeholder="e.g., I Ain't Worried")
-        st.markdown("<br>", unsafe_allow_html=True)  # Add a line break for spacing
 
-        # Artist name input with spacing
+        # Artist name input
         st.markdown('<p class="input-label">Enter the name of the artist:</p>', unsafe_allow_html=True)
         artist = st.text_input("", placeholder="e.g., One Republic")
-        st.markdown("<br>", unsafe_allow_html=True)  # Add a line break for spacing
         
-        # Horizontal grouped checkboxes for emotions with no label
-        st.markdown('<p class="input-label-select-mood">Select the mood(s) of your song:</p>', unsafe_allow_html=True)
+        # Emotion checkboxes using Streamlit's st.checkbox
+        st.markdown('<p class="input-label">Select the mood(s) of your song:</p>', unsafe_allow_html=True)
         selected_emotions = []
         cols = st.columns(3)  # Create 3 columns for horizontal checkboxes
         for idx, (emotion_id, emotion_name) in enumerate(valid_emotions.items()):
-            with cols[idx % 3]:  # Iterate through each emotion, assigning to columns
-                checkbox_container = f"""
-                    <div class="checkbox-container">
-                        <input type="checkbox" id="{emotion_id}" class="mood-checkbox" />
-                        <label for="{emotion_id}" class="mood-label">{emotion_name}</label>
-                    </div>
-                """
-                st.markdown(checkbox_container, unsafe_allow_html=True)
+            with cols[idx % 3]:  # Distribute across columns
+                if st.checkbox(emotion_name):
+                    selected_emotions.append(emotion_name)
 
-        st.markdown("<br>", unsafe_allow_html=True)  
+        # Genre dropdown
+        st.markdown('<p class="input-label">Select the genre of your song:</p>', unsafe_allow_html=True)
+        genre = st.selectbox("", genres)  # Dropdown with genre options
 
-        st.markdown('<p class="input-label">Enter the genre of your song:</p>', unsafe_allow_html=True)
-        genre = st.text_input("", placeholder="e.g., Pop")
-        st.markdown("<br>", unsafe_allow_html=True)  
+        # Spotify link input
         st.markdown('<p class="input-label">Paste the Spotify link of the song:</p>', unsafe_allow_html=True)
         spotify_link = st.text_input("")
-        st.markdown("<br>", unsafe_allow_html=True)  
+
         submit_button = st.form_submit_button(label='Submit')
 
     if submit_button:
         if not (name and artist and selected_emotions and genre and spotify_link):
             st.toast("Please fill all the fields.", icon="❗")
         else:
+            # Get emotion_id from selected emotions
             emotion_id = get_selected_emotion_ids(selected_emotions)
             
             db = {
@@ -114,9 +97,9 @@ def form():
                 );
             """)
 
-            cursor.execute(f"SELECT * FROM rc_songs WHERE name = %s AND artist = %s", (name, artist))
+            cursor.execute("SELECT * FROM rc_songs WHERE name = %s AND artist = %s", (name, artist))
             result1 = cursor.fetchone()
-            cursor.execute(f"SELECT * FROM songs WHERE name = %s AND artist = %s", (name, artist))
+            cursor.execute("SELECT * FROM songs WHERE name = %s AND artist = %s", (name, artist))
             result2 = cursor.fetchone()
 
             if (not result1) and (not result2):
@@ -125,9 +108,9 @@ def form():
                     (name, artist, emotion_id, genre, spotify_link)
                 )
                 connection.commit()
-                st.toast('Thanks for the recommendation! 😊', icon='😍')  
+                st.toast('Thanks for the recommendation! 😊')
             else:
-                st.toast("This song has already been recommended.",icon="❗")
+                st.toast("This song has already been recommended.", icon="❗")
 
             cursor.close()
             connection.close()
