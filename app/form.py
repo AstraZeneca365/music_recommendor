@@ -115,9 +115,11 @@ def form():
             """)
 
             cursor.execute(f"SELECT * FROM rc_songs WHERE name = %s AND artist = %s", (name, artist))
-            result = cursor.fetchone()
+            result1 = cursor.fetchone()
+            cursor.execute(f"SELECT * FROM songs WHERE name = %s AND artist = %s", (name, artist))
+            result2 = cursor.fetchone()
 
-            if not result:
+            if (not result1) and (not result2):
                 cursor.execute(
                     "INSERT INTO rc_songs (name, artist, emotion_id, genre, spotify_link) VALUES (%s, %s, %s, %s, %s)",
                     (name, artist, emotion_id, genre, spotify_link)
