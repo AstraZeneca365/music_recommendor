@@ -359,12 +359,9 @@ def display_conversation():
 def get_text_color():
     hour = datetime.now().hour
     if hour >= 5 and hour < 15:
-        text_color = "#000000" 
+       return "#000000" 
     elif hour >= 15 and hour < 5:
-        text_color = "#FFFFFF"
-
-    return text_color
-
+        return "#FFFFFF"
 
 def main():
     """
@@ -376,8 +373,15 @@ def main():
         display_conversation()  # Show chat history if messages exist
     else:
         # If no conversation yet, display prompt
-        st.markdown("<h4 style='color:gray;'>Type something to start the conversation...</h4>", unsafe_allow_html=True)
+        st.markdown("""
+        <h4 style='color:#A9A9A9; font-size: 18px; font-family: "Roboto", sans-serif;'>        
+        To get the conversation going, you can just type a message like:<br><br>
+        - **<i>“I'm feeling good today!”</i>** (If that's how you feel)<br><br><br>
+        Feel free to try out a few different kinds of questions. Just remember, this chatbot does its best, but sometimes it might say things that sound a little off. Thanks for your patience, and enjoy the chat!
+        </h4>
+        """, unsafe_allow_html=True)
 
+    
     if user_input := st.chat_input("Type your message here..."):
         # Save user's message to the session state
         st.session_state.conversation.append({"role": "user", "content": user_input})

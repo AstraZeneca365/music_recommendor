@@ -177,7 +177,7 @@ def main():
         st.title("Home")
         text_color = get_text_color()
         text_color_for_desc = get_text_color_for_desc()
-        st.markdown(f'<p style="color:{text_color}; font-size: 24px; font-family: Arial, sans-serif;">This is Spots. I love to talk to people and recommend you some cool songs based on your mood!</p>', unsafe_allow_html=True)        
+        st.markdown(f'<p style="color:{text_color}; font-size: 24px; font-family: Arial, sans-serif;">This is Spots. I love to talk to people and recommend some cool songs based on your mood!</p>', unsafe_allow_html=True)        
 
         # Layout for the chat button and description
         col1, col2 = st.columns([1, 3])  # Adjust the column ratios as needed
