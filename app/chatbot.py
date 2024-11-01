@@ -362,23 +362,39 @@ def get_text_color():
        return "#000000" 
     elif hour >= 15 and hour < 5:
         return "#FFFFFF"
+def get_text_color_for_desc():
+    hour = datetime.now().hour
+    if hour >= 5 and hour < 15:
+       return "#4C444A" 
+    elif hour >= 15 and hour < 5:
+        return "#A9A9A9"
+    
 
 def main():
     """
     Main function to run the Streamlit chatbot app.
     """
     text_color = get_text_color()
-
+    text_color_for_desc = get_text_color_for_desc()
     if st.session_state.conversation:
         display_conversation()  # Show chat history if messages exist
     else:
+        st.markdown(f"""
+            <style>
+            .input-label-for-chatbot-desc {{
+                font-size: 18px; /* Change this value to adjust the font size */
+                font-family: "Roboto", sans-serif; /* You can change the font family */
+                color: {text_color_for_desc}; /* Dynamic color based on time */
+            }}
+            </style>
+            """, unsafe_allow_html=True)
         # If no conversation yet, display prompt
         st.markdown("""
-        <h4 style='color:#A9A9A9; font-size: 18px; font-family: "Roboto", sans-serif;'>        
+        <p class="input-label-for-chatbot-desc">        
         To get the conversation going, you can just type a message like:<br><br>
         - **<i>“I'm feeling good today!”</i>** (If that's how you feel)<br><br><br>
         Feel free to try out a few different kinds of questions. Just remember, this chatbot does its best, but sometimes it might say things that sound a little off. Thanks for your patience, and enjoy the chat!
-        </h4>
+        </p>
         """, unsafe_allow_html=True)
 
     

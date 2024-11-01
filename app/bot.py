@@ -254,18 +254,36 @@ def main():
         cursor = connection.cursor()
 
         with st.form(key='search_form'):
-            search_input = st.text_input("Search for a specific song:", placeholder="Enter song title/artist")
+            text_color = get_text_color()
+            st.markdown(f"""
+            <style>
+            .input-label {{
+                font-size: 18px; /* Change this value to adjust the font size */
+                font-family: Arial, sans-serif; /* You can change the font family */
+                margin-bottom: -35px; /* No space between the label and input field */
+                color: {text_color}; /* Dynamic color based on time */
+            }}
+            .input-label-for-search-results {{
+                font-size: 18px; /* Change this value to adjust the font size */
+                font-family: Arial, sans-serif; /* You can change the font family */
+                margin-bottom: -5px; /* No space between the label and input field */
+                color: {text_color}; /* Dynamic color based on time */
+            }}
+            </style>
+            """, unsafe_allow_html=True)
+            st.markdown('<p class="input-label">Search for a specific song:</p>', unsafe_allow_html=True)
+            search_input = st.text_input("", placeholder="Enter song title/artist")
             search_button = st.form_submit_button("Search")
             
             if search_button:   
                 if not search_input.strip():
-                    st.warning("Please enter something to search for.")
+                    st.toast("Please enter something to search for.")
                 else:
                     # Fetch songs by title
                     songs = search_song_by_title_or_artist(cursor, search_input)
                     
                     if songs:
-                        st.markdown(f'<p class="header">Search results for "{search_input}":</p>', unsafe_allow_html=True)
+                        st.markdown(f'<p class="input-label-for-search-results">Search results for "{search_input}":</p>', unsafe_allow_html=True)
                         for song in songs:
                             ei = decoder(song[2])
                             st.markdown(f"""
@@ -278,7 +296,7 @@ def main():
                             </div>
                             """, unsafe_allow_html=True)
                     else:
-                        st.warning(f"No songs found for '{search_input}'.")
+                        st.toast(f"No songs found for '{search_input}'.")
 
         cursor.close()
         connection.close()
