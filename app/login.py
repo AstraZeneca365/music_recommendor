@@ -20,20 +20,6 @@ def validate_user(username, password):
                 return True
     return False
 
-# Function for the signup process
-def signup():
-    st.title("Sign Up")
-
-    username = st.text_input("Choose a username")
-    password = st.text_input("Choose a password", type="password")
-    
-    if st.button("Sign Up"):
-        if not username or not password:
-            st.error("Please fill out both fields.")
-        else:
-            save_user(username, password)
-            st.success("You have successfully signed up! You can now log in.")
-
 # Main function to run the Streamlit app
 def main():
     if 'page' not in st.session_state:
@@ -76,9 +62,6 @@ def main():
             # Display error message outside the column layout
             if error_message:
                 st.toast(error_message , icon = "❗")
-
-    elif st.session_state.page == "signup":
-        signup()
 
 if __name__ == "__main__":
     main()
