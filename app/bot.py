@@ -54,9 +54,6 @@ def search_song_by_title_or_artist(cursor, tora):
         return None
 
 # Emotion ID mapping
-emotion_ids = ["CLM", "ENR", "SAD", "FCS", "MTV", "LOV", "HBR", "CHL", "PRT", "ANG", "HPY"]
-emotions = ["Calm", "Energetic", "Sad", "Focused", "Motivational", "Love", "Heartbreak", "Chill", "Party", "Angry", "Happy"]
-
 emotion_map = {
     "HPY": "Happy",
     "SAD": "Sad",
