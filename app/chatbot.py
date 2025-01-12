@@ -17,6 +17,19 @@ if 'user_name' not in st.session_state:
 
 # emotion to response mapping with multiple responses for variety
 emotion_responses = {
+    
+    "MTV": [
+        "What’s inspiring you to push forward today?",
+        "Motivation can be so powerful! What drives you?",
+        "I can sense your determination! What are you working towards?",
+        "What’s fueling your ambition right now?",
+        "I love your enthusiasm! What are you excited to accomplish?",
+        "What keeps you motivated on tough days?",
+        "Your drive is inspiring! What’s your current goal?",
+        "What motivates you to keep moving forward?",
+        "How do you stay focused on your goals?",
+        "I admire your motivation! What’s the next step for you?"
+    ],
     "HPY": [
         "That's wonderful! What brought you so much joy?",
         "Your happiness is infectious! Tell me more about it.",
@@ -40,18 +53,6 @@ emotion_responses = {
         "It's okay to feel this way. How can I support you through this?",
         "You’re not alone in this. Want to share your thoughts?",
         "Let’s talk about what’s bringing you down, if you’re comfortable."
-    ],
-    "MTV": [
-        "What’s inspiring you to push forward today?",
-        "Motivation can be so powerful! What drives you?",
-        "I can sense your determination! What are you working towards?",
-        "What’s fueling your ambition right now?",
-        "I love your enthusiasm! What are you excited to accomplish?",
-        "What keeps you motivated on tough days?",
-        "Your drive is inspiring! What’s your current goal?",
-        "What motivates you to keep moving forward?",
-        "How do you stay focused on your goals?",
-        "I admire your motivation! What’s the next step for you?"
     ],
     "CLM": [
         "It’s great to hear you’re feeling calm. What’s bringing you peace?",
@@ -167,93 +168,21 @@ default_response = "I'm here to listen. Can you tell me more?"
 
 # mapping from model labels to desired emotions
 model_to_emotion = {
-    "admiration": "LOV",           # Mapped to Love
-    "amusement": "HPY",            # Mapped to Happy
-    "anger": "ANG",                # Mapped to Angry
-    "annoyance": "ANG",            # Mapped to Angry
-    "disgust": "ANG",              # Mapped to Angry
-    "fear": "SAD",                 # Mapped to Sad (fearful state can lead to sadness)
-    "joy": "HPY",                  # Mapped to Happy
-    "love": "LOV",                 # Mapped to Love
-    "optimism": "MTV",             # Mapped to Motivational (uplifting feeling)
-    "pessimism": "SAD",            # Mapped to Sad
-    "pride": "HPY",                # Mapped to Happy
-    "realization": "FCS",          # Mapped to Focused
-    "relief": "CLM",               # Mapped to Calm (relief brings calmness)
-    "remorse": "SAD",              # Mapped to Sad
-    "sadness": "SAD",              # Mapped to Sad
-    "surprise": "PRT",             # Mapped to Party
-    "confusion": "neutral",        # Mapped to Neutral (no matching predefined category)
-    "curiosity": "FCS",            # Mapped to Focused
-    "desire": "MTV",               # Mapped to Motivational
-    "grief": "HBR",                # Mapped to Heartbreak
-    "envy": "ANG",                 # Mapped to Angry
-    "hate": "ANG",                 # Mapped to Angry
-    "shame": "SAD",                # Mapped to Sad
-    "disappointment": "SAD",       # Mapped to Sad
-    "excitement": "ENR",           # Mapped to Energetic
-    "gratitude": "LOV",            # Mapped to Love
-    "contentment": "CLM",          # Mapped to Calm
-    "betrayal": "HBR",             # Mapped to Heartbreak
-    "nervousness": "SAD",          # Mapped to Sad (anxiety can lead to sadness)
-    "reluctance": "SAD",           # Mapped to Sad (unwillingness can lead to disappointment)
-    "doubt": "neutral",            # Mapped to Neutral (uncertainty doesn't fit other emotions)
-    "yearning": "LOV",             # Mapped to Love (a deep longing for someone)
-    "hope": "MTV",                 # Mapped to Motivational (a feeling of expectation)
-    "indifference": "neutral",     # Mapped to Neutral (lack of interest)
-    "contention": "ANG",           # Mapped to Angry (disagreement can cause anger)
-    "euphoria": "HPY",             # Mapped to Happy (intense excitement or happiness)
-    "frustration": "ANG",          # Mapped to Angry (a response to obstacles)
-    "vulnerability": "SAD",        # Mapped to Sad (feeling exposed can lead to sadness)
-    "fascination": "FCS",          # Mapped to Focused (a strong interest)
-    "serenity": "CLM",             # Mapped to Calm (state of being calm)
-    "distraction": "neutral",      # Mapped to Neutral (being unfocused)
-    "nostalgia": "CHL",            # Mapped to Chill (sentimental yearning for the past)
-    "apathy": "neutral",           # Mapped to Neutral (lack of feeling or interest)
-    "satisfaction": "HPY",         # Mapped to Happy (contentment with a situation)
-    "discontent": "SAD",           # Mapped to Sad (unhappiness with a situation)
-    "rejuvenation": "ENR",         # Mapped to Energetic (feeling refreshed)
-    "contemplation": "FCS",        # Mapped to Focused (deep thought about something)
-    "disdain": "ANG",              # Mapped to Angry (feeling of contempt)
-    "fury": "ANG",                 # Mapped to Angry (intense anger)
-    "worry": "SAD",                # Mapped to Sad (anxiety leads to sadness)
-    "reluctance": "SAD",           # Mapped to Sad (feeling unwilling)
-    "betrayal": "HBR",             # Mapped to Heartbreak
-    "embarrassment": "SAD",        # Mapped to Sad (feeling self-conscious)
-    "exasperation": "ANG",         # Mapped to Angry (intense annoyance)
-    "longing": "LOV",              # Mapped to Love (deep desire for someone)
-    "hostility": "ANG",            # Mapped to Angry (unfriendly feelings)
-    "relaxation": "CLM",           # Mapped to Calm (state of relaxation)
-    "anticipation": "MTV",         # Mapped to Motivational (looking forward to something)
-    "desperation": "SAD",          # Mapped to Sad (extreme need can lead to sadness)
-    "disappointment": "SAD",       # Mapped to Sad (unmet expectations)
-    "zeal": "ENR",                 # Mapped to Energetic (enthusiasm)
-    "ambivalence": "neutral",      # Mapped to Neutral (mixed feelings)
-    "overwhelm": "SAD",            # Mapped to Sad (feeling flooded by emotions)
-    "intrigue": "FCS",             # Mapped to Curiosity (a strong interest)
-    "tranquility": "CLM",          # Mapped to Calm (peaceful state)
-    "disillusionment": "SAD",      # Mapped to Sad (loss of belief)
-    "regret": "SAD",               # Mapped to Sad (feeling sorry for something)
-    "ecstasy": "HPY",              # Mapped to Happy (intense joy)
-    "compassion": "LOV",           # Mapped to Love (feeling for others)
-    "fascination": "FCS",          # Mapped to Curiosity (a strong interest)
-    "reluctance": "SAD",           # Mapped to Sad (feeling unwilling)
-    "thrill": "HPY",               # Mapped to Happy (excitement)
-    "elation": "HPY",              # Mapped to Happy (extreme joy)
-    "apprehension": "SAD",         # Mapped to Sad (fear of what may happen)
-    "ennui": "neutral",            # Mapped to Neutral (feeling of boredom)
-    "delight": "HPY",              # Mapped to Happy (great pleasure)
-    "melancholy": "SAD",           # Mapped to Sad (deep, persistent sadness)
-    "anticipation": "MTV",         # Mapped to Motivational (excitement about the future)
-    "dismay": "SAD",               # Mapped to Sad (disappointment mixed with shock)
-    "ecstasy": "HPY",              # Mapped to Happy (overwhelming joy)
-    "revulsion": "ANG",            # Mapped to Angry (strong disgust)
-    "irritation": "ANG",           # Mapped to Angry (mild anger)
-    "betrayal": "HBR",             # Mapped to Heartbreak (sense of treachery)
-    "nostalgia": "CHL",            # Mapped to Chill (yearning for the past)
-    "sorrow": "SAD",               # Mapped to Sad (deep sadness)
-    "conflict": "ANG"              # Mapped to Angry (internal struggle)
+    "joy": "HPY",
+    "happiness": "HPY",
+    "sadness": "SAD",
+    "anger": "ANG",
+    "love": "LOV",
+    "calm": "CLM",
+    "neutral": "neutral",
+    "excitement": "ENR",
+    "focus": "FCS",
+    "motivation": "MTV",
+    "chill": "CHL",
+    "party": "PRT",
+    "heartbroken": "HBR"
 }
+
 
 
 
@@ -266,33 +195,210 @@ def load_emotion_classifier():
 
 emotion_classifier = load_emotion_classifier()
 
+keyword_overrides = {
+    "calm"         : "CLM",
+    "peace"        : "CLM",
+    "relief"       : "CLM",
+    "quiet"        : "CLM",
+    "breathe"      : "CLM",
+    "calm down"    : "CLM",
+    "peaceful"     : "CLM",
+    "still"        : "CLM",
+    "relieved"     : "CLM",
+    "tranquility"  : "CLM",
+    "serene"       : "CLM",
+    "ease"         : "CLM",
+
+    "angry"        : "ANG",
+    "hate"         : "ANG",
+    "upset"        : "ANG",
+    "mad"          : "ANG",
+    "frustrated"   : "ANG",
+    "annoyed"      : "ANG",
+    "irritated"    : "ANG",
+    "furious"      : "ANG",
+    "angst"        : "ANG",
+    "outburst"     : "ANG",
+    "rage"         : "ANG",
+
+    "sad"          : "SAD",
+    "tired"        : "SAD",
+    "scared"       : "SAD",
+    "fear"         : "SAD",
+    "sorry"        : "SAD",
+    "bad"          : "SAD",
+    "horrible"     : "SAD",
+    "terrible"     : "SAD",
+    "worried"      : "SAD",
+    "nervous"      : "SAD",
+    "unhappy"      : "SAD",
+    "melancholy"   : "SAD",
+    "blue"         : "SAD",
+    "gloomy"       : "SAD",
+    "down"         : "SAD",
+    "tearful"      : "SAD",
+    "distressed"   : "SAD",
+    "weary"        : "SAD",
+    "miserable"    : "SAD",
+    "exhausted"    : "SAD",
+    "anxious"      : "SAD",
+    "tough day"    : "SAD",
+    "bad day"      : "SAD",
+
+    "love"         : "LOV",
+    "grateful"     : "LOV",
+    "thankful"     : "LOV",
+    "friends"      : "LOV",
+    "family"       : "LOV",
+    "sweet"        : "LOV",
+    "affection"    : "LOV",
+    "adoration"    : "LOV",
+    "fondness"     : "LOV",
+    "cherished"    : "LOV",
+    "beloved"      : "LOV",
+    "fond"         : "LOV",
+    "devotion"     : "LOV",
+    "infatuation"  : "LOV",
+    "caring"       : "LOV",
+    "appreciate"   : "LOV",
+    "thank you"    : "LOV",
+    "bond"         : "LOV",
+    "friend"       : "LOV",
+    "bestie"       : "LOV",
+    "home"         : "LOV",
+    "bonded"       : "LOV",
+
+    "heartbreak"   : "HBR",
+    "lonely"       : "HBR",
+    "broken"       : "HBR",
+    "hurt"         : "HBR",
+    "tears"        : "HBR",
+    "devastated"   : "HBR",
+    "crushed"      : "HBR",
+    "despair"      : "HBR",
+    "mourning"     : "HBR",
+    "painful"      : "HBR",
+    "grief"        : "HBR",
+    "sorrowful"    : "HBR",
+    "shattered"    : "HBR",
+    "missing"      : "HBR",
+    "betrayed"     : "HBR",
+    "cheated"      : "HBR",
+    "pain"         : "HBR",
+    "breakup"      : "HBR",
+    "alone"        : "HBR",
+
+    "happy"        : "HPY",
+    "laugh"        : "HPY",
+    "smile"        : "HPY",
+    "joy"          : "HPY",
+    "cheerful"     : "HPY",
+    "amazing"      : "HPY",
+    "great"        : "HPY",
+    "wonderful"    : "HPY",
+    "best"         : "HPY",
+    "happiness"    : "HPY",
+    "laughter"     : "HPY",
+    "funny"        : "HPY",
+    "comedy"       : "HPY",
+    "joke"         : "HPY",
+    "smiley"       : "HPY",
+    "great day"    : "HPY",
+    "bliss"        : "HPY",
+
+    "excited"      : "ENR",
+    "awesome"      : "ENR",
+    "thrilled"     : "ENR",
+    "energized"    : "ENR",
+    "buzzed"       : "ENR",
+    "exciting"     : "ENR",
+    "energy"       : "ENR",
+
+    "party"        : "PRT",
+    "fun"          : "PRT",
+    "celebrate"    : "PRT",
+    "dance"        : "PRT",
+    "sing"         : "PRT",
+    "surprised"    : "PRT",
+    "happy birthday": "PRT",
+    "congrats"     : "PRT",
+    "wow"          : "PRT",
+    "gathering"    : "PRT",
+    "event"        : "PRT",
+    "joyous"       : "PRT",
+    "dancing"      : "PRT",
+    "celebration"  : "PRT",
+    "merrymaking"  : "PRT",
+
+    "motivated"    : "MTV",
+    "strong"       : "MTV",
+    "brave"        : "MTV",
+    "goals"        : "MTV",
+    "dreams"       : "MTV",
+    "hope"         : "MTV",
+    "plans"        : "MTV",
+    "good job"     : "MTV",
+    "tough"        : "MTV",
+    "inspired"     : "MTV",
+    "motivation"   : "MTV",
+    "determination": "MTV",
+    "achievement"  : "MTV",
+    "success"      : "MTV",
+    "winning"      : "MTV",
+    "victory"      : "MTV",
+    "dream big"    : "MTV",
+    "hopeful"      : "MTV",
+    "goal"         : "MTV",
+    "ambition"     : "MTV",
+    "determined"   : "MTV",
+    "win"          : "MTV",
+
+    "chill"        : "CHL",
+    "bored"        : "CHL",
+    "relaxed"      : "CHL",
+    "free"         : "CHL",
+    "lazy"         : "CHL",
+    "comfort"      : "CHL",
+    "laid-back"    : "CHL",
+    "content"      : "CHL",
+    "boredom"      : "CHL",
+    "relax"        : "CHL",
+    "me time"      : "CHL",
+
+     "okay"        : "neutral",
+    "fine"        : "neutral",
+    "alright"     : "neutral",
+    "normal"      : "neutral",
+    "average"     : "neutral",
+    "indifferent" : "neutral",
+    "balanced"    : "neutral",
+    "ordinary"    : "neutral",
+    "routine"     : "neutral",
+    "unsure"      : "neutral",
+
+}
+
 def detect_emotion(text):
-    """
-    Detect the primary emotion in the given text.
+    # First, check for keyword-based overrides
+    for keyword, emotion in keyword_overrides.items():
+        if keyword in text.lower():
+            return emotion, 1.0  # Return the override emotion with high confidence
 
-    parameters:
-        text (str): the input text from the user.
-
-    returns:
-        tuple: (primary_emotion, confidence_score)
-    """
+    # Otherwise, use the model prediction
     results = emotion_classifier(text)
+    print(results)
     if not results:
         return "neutral", 0.0
 
-    # get the top emotion with the highest score
+    # Find the emotion with the highest confidence
     top_emotion = max(results, key=lambda x: x['score'])
-    emotion_label = top_emotion['label'].lower()
+    model_emotion = top_emotion['label'].lower()
+    confidence_score = top_emotion['score']
 
-    # map the model's label to our predefined emotions
-    emotion = model_to_emotion.get(emotion_label, "neutral")
-
-    # confidence threshold to ensure reliable detection
-    confidence_threshold = 0.7
-    if top_emotion['score'] < confidence_threshold:
-        emotion = "neutral"
-
-    return emotion, top_emotion['score']
+    # Map to desired emotions, default to "neutral" if no match is found
+    custom_emotion = model_to_emotion.get(model_emotion, "neutral")
+    
+    return custom_emotion, confidence_score
 
 def get_response(emotion):
     """
@@ -392,7 +498,7 @@ def main():
         st.markdown("""
         <p class="input-label-for-chatbot-desc">        
         To get the conversation going, you can just type a message like:<br><br>
-        - **<i>“I'm feeling good today!”</i>** (If that's how you feel)<br><br><br>
+        - <i>“I'm feeling good today!”</i> (If that's how you feel)<br><br><br>
         Feel free to try out a few different kinds of questions. Just remember, this chatbot does its best, but sometimes it might say things that sound a little off. Thanks for your patience, and enjoy the chat!
         </p>
         """, unsafe_allow_html=True)
@@ -405,7 +511,8 @@ def main():
             st.markdown(f"<p style='margin: -10px 0 0 0;'> {user_input} </p>", unsafe_allow_html=True)
 
         with st.spinner("Analyzing your message..."):
-            emotion, score = detect_emotion(user_input)
+            emotion,score = detect_emotion(user_input)
+            print(emotion)
             response = get_response(emotion)
             time.sleep(1)  # simulate processing time
         
